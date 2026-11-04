@@ -7,6 +7,7 @@ export async function getProjectProgressWorkspace(projectId: string) {
 		schedule,
 		latestReport,
 		reports,
+		reportsInReview,
 		inventoryResources,
 		warehouses,
 		projectDeliveries,
@@ -40,6 +41,22 @@ export async function getProjectProgressWorkspace(projectId: string) {
 			where: { projectId },
 			orderBy: [{ reportDate: "desc" }, { createdAt: "desc" }],
 			take: 8,
+		}),
+		prisma.dailyReport.findMany({
+			where: { projectId, status: { in: ["SUBMITTED", "REVIEWED"] } },
+			select: {
+				id: true,
+				reportDate: true,
+				createdAt: true,
+				activities: {
+					where: { todayQuantity: { gt: 0 } },
+					select: {
+						scheduleActivityId: true,
+						todayQuantity: true,
+						contractedQuantity: true,
+					},
+				},
+			},
 		}),
 		prisma.inventoryMaterial.findMany({
 			where: { active: true, resourceType: "MATERIAL" },
@@ -137,6 +154,7 @@ export async function getProjectProgressWorkspace(projectId: string) {
 		schedule: enrichedSchedule,
 		latestReport,
 		reports,
+		reportsInReview,
 		inventoryResources: projectResources,
 	};
 }

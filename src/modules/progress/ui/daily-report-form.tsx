@@ -17,6 +17,7 @@ import { useState } from "react";
 import { scheduleActivityStatusLabels } from "@/modules/schedules/domain/validation";
 import { OfflineDailyReportDraft } from "@/shared/offline/daily-report-draft";
 import type { getProjectProgressWorkspace } from "../application/queries";
+import { pendingProgressByActivity } from "../domain/pending-progress";
 import { ActivityProgressFields } from "./activity-progress-fields";
 import { EvidenceUploadFields } from "./evidence-upload-fields";
 import { ResourcesUsedFields } from "./resource-used-fields";
@@ -45,6 +46,8 @@ type ActivityRow = {
 	previousQuantity: string;
 	todayQuantity: string;
 	previousProgress: string;
+	/** Parte del avance anterior que aun esta en informes por aprobar. */
+	pendingProgress: number;
 	status: keyof typeof scheduleActivityStatusLabels;
 	issues: string;
 	scheduledToday: boolean;
@@ -134,16 +137,44 @@ function rowsFromWorkspace(workspace: Workspace): ActivityRow[] {
 		]),
 	);
 
-	function scheduleQuantity(activityId: string, fallback: string) {
+	const currentReport = reportBeingEdited(workspace);
+	const pendingByActivity = pendingProgressByActivity(
+		workspace.reportsInReview.map((report) => ({
+			id: report.id,
+			reportDate: new Date(report.reportDate),
+			createdAt: new Date(report.createdAt),
+			activities: report.activities.map((activity) => ({
+				scheduleActivityId: activity.scheduleActivityId,
+				todayQuantity: Number(activity.todayQuantity),
+				contractedQuantity: Number(activity.contractedQuantity),
+			})),
+		})),
+		currentReport && {
+			id: currentReport.id,
+			reportDate: new Date(currentReport.reportDate),
+			createdAt: new Date(currentReport.createdAt),
+		},
+	);
+
+	/** Avance del que parte este informe: lo aprobado mas lo que esta en revision. */
+	function baselineProgress(activityId: string) {
 		const activity = scheduleById.get(activityId);
-		if (!activity) return fallback;
-		const contracted = Number(activity.contractedQuantity);
-		const progress = Number(activity.progress);
-		if (!Number.isFinite(contracted) || !Number.isFinite(progress))
-			return fallback;
-		return ((contracted * Math.max(0, Math.min(100, progress))) / 100).toFixed(
-			2,
-		);
+		if (!activity) return null;
+		const progress =
+			Number(activity.progress) + (pendingByActivity.get(activityId) ?? 0);
+		if (!Number.isFinite(progress)) return null;
+		return Number(Math.max(0, Math.min(100, progress)).toFixed(2));
+	}
+
+	function scheduleQuantity(activityId: string, fallback: string) {
+		const baseline = baselineProgress(activityId);
+		const contracted = Number(scheduleById.get(activityId)?.contractedQuantity);
+		if (baseline === null || !Number.isFinite(contracted)) return fallback;
+		return ((contracted * baseline) / 100).toFixed(2);
+	}
+
+	function pendingProgressOf(activityId: string) {
+		return Number((pendingByActivity.get(activityId) ?? 0).toFixed(2));
 	}
 
 	function savedTodayAsPercent(
@@ -185,7 +216,11 @@ function rowsFromWorkspace(workspace: Workspace): ActivityRow[] {
 				activity.todayQuantity.toString(),
 				activity.contractedQuantity.toString(),
 			),
-			previousProgress: activity.previousProgress.toString(),
+			previousProgress: String(
+				baselineProgress(activity.scheduleActivityId ?? "") ??
+					activity.previousProgress.toString(),
+			),
+			pendingProgress: pendingProgressOf(activity.scheduleActivityId ?? ""),
 			status: activity.status,
 			issues: activity.issues ?? "",
 			scheduledToday: false,
@@ -208,7 +243,10 @@ function rowsFromWorkspace(workspace: Workspace): ActivityRow[] {
 			scheduleById.get(activity.id)?.contractedQuantity ?? "100",
 		previousQuantity: scheduleQuantity(activity.id, "0"),
 		todayQuantity: "",
-		previousProgress: activity.progress.toString(),
+		previousProgress: String(
+			baselineProgress(activity.id) ?? activity.progress.toString(),
+		),
+		pendingProgress: pendingProgressOf(activity.id),
 		status: activity.status,
 		issues: "",
 		scheduledToday: isWithinDay(
@@ -748,6 +786,12 @@ export function DailyReportForm({ workspace, action }: DailyReportFormProps) {
 												</dd>
 											</div>
 										</dl>
+										{row.pendingProgress > 0 ? (
+											<p className="mt-3 rounded-lg bg-[var(--surface-inset)] px-3 py-2 text-xs leading-5 text-[var(--muted)]">
+												Incluye {row.pendingProgress}% de informes en revisión,
+												todavía sin aprobar.
+											</p>
+										) : null}
 									</div>
 
 									<ActivityProgressFields

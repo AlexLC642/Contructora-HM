@@ -1,6 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { consumeInventoryForDailyReport } from "@/modules/inventory/application/service";
 import { prisma } from "@/shared/lib/prisma";
+import { resolveActivityStatus } from "../domain/activity-status";
 import {
 	canEditReport,
 	isInReview,
@@ -11,7 +12,10 @@ import {
 	type DailyReportInput,
 	dailyReportInputSchema,
 } from "../domain/validation";
-import { calculateDailyReportActivity } from "./calculations";
+import {
+	calculateApprovedActivityTotals,
+	calculateDailyReportActivity,
+} from "./calculations";
 
 type ProgressMutationContext = {
 	userId: string;
@@ -43,7 +47,10 @@ function activityCreateInput(activity: DailyReportInput["activities"][number]) {
 		accumulatedQuantity: calculated.accumulatedQuantity,
 		previousProgress: calculated.previousProgress,
 		newProgress: calculated.newProgress,
-		status: activity.status,
+		status: resolveActivityStatus(
+			activity.status,
+			calculated.newProgress.toNumber(),
+		),
 		issues: nullable(activity.issues),
 		position: activity.position,
 	};
@@ -147,29 +154,6 @@ async function updateProjectProgressFromSchedule(
 	}
 }
 
-function calculateApprovedActivityTotals(
-	currentProgress: Prisma.Decimal,
-	activity: {
-		activityCode: string;
-		todayQuantity: Prisma.Decimal;
-		contractedQuantity: Prisma.Decimal;
-	},
-) {
-	const contractedQuantity = new Prisma.Decimal(activity.contractedQuantity);
-	const todayProgress = contractedQuantity.gt(0)
-		? activity.todayQuantity.div(contractedQuantity).mul(100).toDecimalPlaces(2)
-		: activity.todayQuantity.toDecimalPlaces(2);
-	const newProgress = currentProgress.add(todayProgress).toDecimalPlaces(2);
-	const accumulatedQuantity = newProgress;
-
-	if (newProgress.gt(100)) {
-		throw new Error(
-			`La actividad ${activity.activityCode} supera el 100% con los informes aprobados acumulados.`,
-		);
-	}
-
-	return { accumulatedQuantity, newProgress };
-}
 function baseReportData(
 	projectId: string,
 	parsed: DailyReportInput,
@@ -453,18 +437,16 @@ export async function approveDailyReport(
 				},
 			);
 
+			const status = resolveActivityStatus(
+				activity.status,
+				totals.newProgress.toNumber(),
+			);
+
 			await tx.scheduleActivity.update({
 				where: { id: scheduleActivity.id },
 				data: {
 					progress: totals.newProgress,
-					status:
-						activity.status === "BLOCKED"
-							? "BLOCKED"
-							: totals.newProgress.equals(new Prisma.Decimal(100))
-								? "COMPLETED"
-								: totals.newProgress.gt(0)
-									? "IN_PROGRESS"
-									: "PENDING",
+					status,
 					// El inicio real es el día más temprano con trabajo reportado,
 					// aunque los informes se aprueben en desorden.
 					actualStart:
@@ -481,8 +463,11 @@ export async function approveDailyReport(
 			await tx.dailyReportActivity.update({
 				where: { id: activity.id },
 				data: {
+					previousQuantity: scheduleActivity.progress,
+					previousProgress: scheduleActivity.progress,
 					accumulatedQuantity: totals.accumulatedQuantity,
 					newProgress: totals.newProgress,
+					status,
 				},
 			});
 		}

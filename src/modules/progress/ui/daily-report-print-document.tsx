@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { resolveActivityStatus } from "@/modules/progress/domain/activity-status";
 import { progressMediaUrl } from "@/modules/progress/domain/media-url";
 import { scheduleActivityStatusLabels } from "@/modules/schedules/domain/validation";
 import { PrintDocumentHeader } from "@/shared/ui/print-document-header";
@@ -195,7 +196,11 @@ export function DailyReportPrintDocument({
 												</div>
 											</td>
 											<td className="text-center">
-												{scheduleActivityStatusLabels[activity.status]}
+												{
+													scheduleActivityStatusLabels[
+														resolveActivityStatus(activity.status, progress)
+													]
+												}
 											</td>
 										</tr>
 									);
