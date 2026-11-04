@@ -23,3 +23,7 @@ tmp/
 # Documentos internos de referencia: conservar solo en el equipo local.
 docs/references/*
 !docs/references/.gitkeep
+
+# Capturas del manual de usuario: se generan con scripts/capturas-manual.ts
+# y no se suben al repositorio.
+docs/manual/
