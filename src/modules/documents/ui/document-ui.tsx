@@ -1,36 +1,5 @@
 import type { LucideIcon } from "lucide-react";
 
-type MetricTone = "neutral" | "red" | "green" | "amber";
-
-export function DocumentMetric({
-	icon: Icon,
-	label,
-	value,
-	detail,
-	tone = "neutral",
-}: {
-	icon: LucideIcon;
-	label: string;
-	value: number | string;
-	detail: string;
-	tone?: MetricTone;
-}) {
-	return (
-		<article className={`documents-metric documents-metric--${tone}`}>
-			<div>
-				<p className="documents-label">{label}</p>
-				<p className="mt-2 text-2xl font-extrabold tracking-[-0.03em] text-[#152022]">
-					{value}
-				</p>
-				<p className="mt-1 text-xs font-medium text-[#65736e]">{detail}</p>
-			</div>
-			<span className="documents-metric__icon">
-				<Icon aria-hidden="true" size={19} strokeWidth={1.8} />
-			</span>
-		</article>
-	);
-}
-
 export function DocumentEmpty({
 	icon: Icon,
 	title,

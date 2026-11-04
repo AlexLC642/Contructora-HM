@@ -5,15 +5,20 @@ const currencyFullFormatter = new Intl.NumberFormat("es-GT", {
 	maximumFractionDigits: 2,
 });
 
+const currencyTickFormatter = new Intl.NumberFormat("es-GT", {
+	style: "currency",
+	currency: "GTQ",
+	maximumFractionDigits: 2,
+	minimumFractionDigits: 0,
+});
+
 export function moneyFull(value: number) {
 	return currencyFullFormatter.format(value);
 }
 
-export function moneyCompact(value: number) {
-	if (Math.abs(value) >= 1_000_000)
-		return `Q ${(value / 1_000_000).toFixed(2)}M`;
-	if (Math.abs(value) >= 1_000) return `Q ${(value / 1_000).toFixed(0)}K`;
-	return moneyFull(value);
+/** Marcas del eje de una gráfica: monto completo, sin ceros decimales de más. */
+export function moneyTick(value: number) {
+	return currencyTickFormatter.format(value);
 }
 
 export function percent(value: number | null | undefined, decimals = 1) {

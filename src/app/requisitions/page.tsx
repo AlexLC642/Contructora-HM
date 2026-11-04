@@ -41,6 +41,7 @@ import {
 	type ActionMenuTone,
 } from "@/shared/ui/action-menu";
 import { AutoFilterForm } from "@/shared/ui/auto-filter-form";
+import { PageHeader } from "@/shared/ui/page-header";
 import { StatStrip } from "@/shared/ui/stat-strip";
 
 const currencyFormatter = new Intl.NumberFormat("es-GT", {
@@ -220,14 +221,10 @@ export default async function RequisitionsPage({
 
 	return (
 		<main className="mx-auto max-w-[1520px] space-y-4">
-			<header className="req-header">
-				<div>
-					<h1>Requerimientos</h1>
-					<p>
-						Lo que la obra o la bodega necesita: se autoriza, se entrega desde
-						inventario o pasa a Compras.
-					</p>
-				</div>
+			<PageHeader
+				description="Lo que la obra o la bodega necesita: se autoriza, se entrega desde inventario o pasa a Compras."
+				title="Requerimientos"
+			>
 				<Link
 					className="requisitions-new-button focus-ring"
 					href="/requisitions?new=1"
@@ -235,7 +232,7 @@ export default async function RequisitionsPage({
 					<Plus aria-hidden="true" size={18} />
 					Nueva solicitud
 				</Link>
-			</header>
+			</PageHeader>
 
 			<StatStrip
 				items={[

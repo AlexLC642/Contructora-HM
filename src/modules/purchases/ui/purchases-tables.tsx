@@ -15,17 +15,17 @@ import type { ReactNode } from "react";
 import { useActionState, useEffect, useId, useState } from "react";
 import { useFormStatus } from "react-dom";
 import {
-	cancelPurchaseOrderAction,
-	type PurchaseOrderStepState,
-	setSupplierActiveAction,
-} from "../application/actions";
-import {
 	ActionMenu,
 	ActionMenuButton,
 	ActionMenuLink,
 	ActionMenuScope,
 } from "@/shared/ui/action-menu";
 import { StatStrip } from "@/shared/ui/stat-strip";
+import {
+	cancelPurchaseOrderAction,
+	type PurchaseOrderStepState,
+	setSupplierActiveAction,
+} from "../application/actions";
 import type { getCompanyInvoices } from "../application/company-invoices";
 import type { getPurchaseWorkspace } from "../application/queries";
 
@@ -36,12 +36,6 @@ type Supplier = WorkspaceData["suppliers"][number];
 const money = new Intl.NumberFormat("es-GT", {
 	style: "currency",
 	currency: "GTQ",
-});
-const compactMoney = new Intl.NumberFormat("es-GT", {
-	style: "currency",
-	currency: "GTQ",
-	notation: "compact",
-	maximumFractionDigits: 1,
 });
 const shortDate = new Intl.DateTimeFormat("es-GT", {
 	day: "2-digit",
@@ -78,8 +72,8 @@ export function KpiStrip({ items }: { items: KpiItem[] }) {
 	return <StatStrip items={items} label="Indicadores de compras" />;
 }
 
-export function formatCompactMoney(value: number) {
-	return value >= 100_000 ? compactMoney.format(value) : money.format(value);
+export function formatMoney(value: number) {
+	return money.format(value);
 }
 
 /* --------------------------------------------------------- Anuladas */

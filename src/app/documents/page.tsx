@@ -1,15 +1,13 @@
 import {
-	CheckCircle2,
+	ChevronRight,
 	Clock3,
 	Download,
 	Eye,
 	FileArchive,
-	Files,
 	FileText,
 	FolderKanban,
 	FolderOpen,
 	History,
-	Layers3,
 	Pencil,
 	Plus,
 	Search,
@@ -32,20 +30,21 @@ import {
 import { DocumentPreviewModal } from "@/modules/documents/ui/document-preview-modal";
 import {
 	DocumentEmpty,
-	DocumentMetric,
 	DocumentStatus,
 	documentInputClass,
 } from "@/modules/documents/ui/document-ui";
 import { DocumentUploadDrawer } from "@/modules/documents/ui/document-upload-drawer";
 import { prisma } from "@/shared/lib/prisma";
-import { AnimatedFolderIcon } from "@/shared/ui/animated-folder-icon";
 import {
 	ActionMenu,
 	ActionMenuLink,
 	ActionMenuScope,
 	ActionMenuSeparator,
 } from "@/shared/ui/action-menu";
+import { AnimatedFolderIcon } from "@/shared/ui/animated-folder-icon";
 import { AutoFilterForm } from "@/shared/ui/auto-filter-form";
+import { PageHeader } from "@/shared/ui/page-header";
+import { StatStrip } from "@/shared/ui/stat-strip";
 
 const dateFormatter = new Intl.DateTimeFormat("es-GT", { dateStyle: "medium" });
 const inputClass = documentInputClass;
@@ -293,55 +292,65 @@ export default async function DocumentsPage({
 	return (
 		<main className="mx-auto max-w-[1480px]">
 			<ActionMenuScope className="space-y-5">
-				<section className="documents-hero">
-					<div className="relative z-10 flex flex-wrap items-center justify-between gap-6">
-						<div className="flex items-center gap-4">
-							<span className="documents-hero__icon">
-								<Files aria-hidden="true" size={22} />
-							</span>
-							<h1 className="sr-only">Documentos</h1>
-						</div>
-						<a
-							className="documents-primary-action focus-ring"
-							href={documentsHref(params, { upload: "true" })}
-						>
-							<Plus aria-hidden="true" size={17} /> Subir documento
-						</a>
-					</div>
-				</section>
-
-				<section
-					aria-label="Resumen documental"
-					className="kpi-grid grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
+				<PageHeader
+					description="El expediente de cada obra: contratos, planos, finanzas e informes en un solo lugar."
+					title="Documentos"
 				>
-					<DocumentMetric
-						detail="Archivos registrados"
-						icon={Files}
-						label="Documentos"
-						value={documents.length}
-					/>
-					<DocumentMetric
-						detail="Con expediente activo"
-						icon={FolderOpen}
-						label="Proyectos"
-						tone="red"
-						value={projectsWithDocuments}
-					/>
-					<DocumentMetric
-						detail="Historial acumulado"
-						icon={Layers3}
-						label="Versiones"
-						tone="amber"
-						value={totalVersions}
-					/>
-					<DocumentMetric
-						detail="Listos para consulta"
-						icon={CheckCircle2}
-						label="Aprobados"
-						tone="green"
-						value={approvedDocuments}
-					/>
-				</section>
+					<a
+						className="hm-action hm-action--primary focus-ring"
+						href={documentsHref(params, { upload: "true" })}
+					>
+						<Plus aria-hidden="true" size={17} /> Subir documento
+					</a>
+				</PageHeader>
+
+				<StatStrip
+					items={[
+						{
+							key: "documents",
+							label: "Documentos",
+							value: documents.length,
+							detail: "Archivos registrados",
+							active: activeTab === "todos" && !statusFilter,
+							href: documentsHref(params, {
+								tab: "todos",
+								status: "",
+								page: "1",
+							}),
+						},
+						{
+							key: "projects",
+							label: "Proyectos",
+							value: projectsWithDocuments,
+							detail: "Con expediente activo",
+							active: activeTab === "por-proyecto",
+							href: documentsHref(params, {
+								tab: "por-proyecto",
+								status: "",
+								page: "1",
+							}),
+						},
+						{
+							key: "versions",
+							label: "Versiones",
+							value: totalVersions,
+							detail: "Historial acumulado",
+						},
+						{
+							key: "approved",
+							label: "Aprobados",
+							value: approvedDocuments,
+							detail: "Listos para consulta",
+							active: activeTab === "todos" && statusFilter === "APPROVED",
+							href: documentsHref(params, {
+								tab: "todos",
+								status: "APPROVED",
+								page: "1",
+							}),
+						},
+					]}
+					label="Resumen documental"
+				/>
 
 				<section className="documents-panel documents-toolbar">
 					<nav aria-label="Vistas de documentos" className="documents-tabs">
@@ -391,21 +400,20 @@ export default async function DocumentsPage({
 							const totalCount = projectDocs.length;
 							if (totalCount === 0 && query !== "") return null;
 
-							const contratosCount = projectDocs.filter(
-								(d) => getVisualGroup(d.category.key) === "contractual",
-							).length;
-							const planosCount = projectDocs.filter(
-								(d) => getVisualGroup(d.category.key) === "tecnico",
-							).length;
-							const financierosCount = projectDocs.filter(
-								(d) => getVisualGroup(d.category.key) === "financiero",
-							).length;
-							const informesCount = projectDocs.filter(
-								(d) => getVisualGroup(d.category.key) === "informes",
-							).length;
-							const otrosCount = projectDocs.filter(
-								(d) => getVisualGroup(d.category.key) === "administrativo",
-							).length;
+							const groups = [
+								["Contratos", "contractual"],
+								["Planos", "tecnico"],
+								["Financieros", "financiero"],
+								["Informes", "informes"],
+								["Otros", "administrativo"],
+							]
+								.map(([label, group]) => ({
+									label,
+									count: projectDocs.filter(
+										(d) => getVisualGroup(d.category.key) === group,
+									).length,
+								}))
+								.filter((group) => group.count > 0);
 
 							const lastUpdate =
 								projectDocs.length > 0
@@ -423,71 +431,43 @@ export default async function DocumentsPage({
 										month: "2-digit",
 										year: "numeric",
 									})
-								: "Sin documentos";
+								: null;
 
 							return (
-								<div className="documents-project-card group" key={project.id}>
-									<div>
-										<div className="flex items-start justify-between gap-3">
-											<AnimatedFolderIcon />
-											<span className="rounded-full bg-[#fce9eb] px-2.5 py-1 text-xs font-bold text-[#b91c2c]">
+								<a
+									className="documents-project-card focus-ring group"
+									href={`/projects/${project.id}/documents`}
+									key={project.id}
+								>
+									<div className="documents-project-card__head">
+										<AnimatedFolderIcon />
+										<div className="min-w-0">
+											<h3>{project.code}</h3>
+											<p title={project.name}>{project.name}</p>
+										</div>
+									</div>
+									<div className="documents-project-card__tags">
+										{groups.length > 0 ? (
+											groups.map((group) => (
+												<span key={group.label}>
+													{group.label} {group.count}
+												</span>
+											))
+										) : (
+											<em>Aún no tiene documentos</em>
+										)}
+									</div>
+									<div className="documents-project-card__foot">
+										<span>
+											<strong>
 												{totalCount}{" "}
 												{totalCount === 1 ? "documento" : "documentos"}
-											</span>
-										</div>
-										<h3 className="mt-4 text-lg font-extrabold tracking-[-0.02em] text-[#172122]">
-											{project.code}
-										</h3>
-										<p className="mt-1 line-clamp-1 text-sm text-[#65736e]">
-											{project.name}
-										</p>
-
-										<div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-[var(--muted)]">
-											<div className="flex justify-between border-b border-[#f4f0ed] pb-1">
-												<span>Contratos</span>
-												<strong className="text-[var(--foreground)]">
-													{contratosCount}
-												</strong>
-											</div>
-											<div className="flex justify-between border-b border-[#f4f0ed] pb-1">
-												<span>Planos</span>
-												<strong className="text-[var(--foreground)]">
-													{planosCount}
-												</strong>
-											</div>
-											<div className="flex justify-between border-b border-[#f4f0ed] pb-1">
-												<span>Financieros</span>
-												<strong className="text-[var(--foreground)]">
-													{financierosCount}
-												</strong>
-											</div>
-											<div className="flex justify-between border-b border-[#f4f0ed] pb-1">
-												<span>Informes</span>
-												<strong className="text-[var(--foreground)]">
-													{informesCount}
-												</strong>
-											</div>
-											<div className="col-span-2 flex justify-between border-b border-[#f4f0ed] pb-1">
-												<span>Otros</span>
-												<strong className="text-[var(--foreground)]">
-													{otrosCount}
-												</strong>
-											</div>
-										</div>
-									</div>
-
-									<div className="mt-5 flex items-center justify-between gap-3 border-t border-[#dce2dd] pt-3">
-										<span className="text-[11px] text-[var(--muted)]">
-											Actualizado: {lastUpdateText}
+											</strong>
+											{lastUpdateText ? ` · Actualizado ${lastUpdateText}` : ""}
 										</span>
-										<a
-											className="documents-project-link focus-ring"
-											href={`/projects/${project.id}/documents`}
-										>
-											Abrir documentos →
-										</a>
+										<ChevronRight aria-hidden="true" size={16} />
 									</div>
-								</div>
+								</a>
 							);
 						})}
 						{matchingProjects.length === 0 && (

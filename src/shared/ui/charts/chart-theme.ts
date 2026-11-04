@@ -1,10 +1,7 @@
 import type { EChartsCoreOption } from "echarts/core";
 
-// Legacy shape kept intact - inventory/progress/project charts still import
-// hmChartColors.ink/.muted/.grid/.border/.concrete/.surface directly and are
-// light-mode only for now. Only the dashboard charts have been migrated to
-// the theme-aware tokens below; do the same for a module before assuming its
-// charts already adapt to dark mode.
+// Para texto y líneas usa chartTextTokens(useIsDarkMode()): estos valores claros
+// sobre un fondo oscuro dejan etiquetas invisibles en el lienzo de la gráfica.
 export const hmChartColors = {
 	ink: "#171B1F",
 	muted: "#5A6661",
@@ -17,7 +14,7 @@ export const hmChartColors = {
 	green: "#178A5E",
 	blue: "#2563EB",
 	amber: "#C98500",
-	violet: "#7C3AED",
+	slate: "#4F6D7A",
 	concrete: "#E7E9E3",
 	surface: "#FFFFFF",
 };

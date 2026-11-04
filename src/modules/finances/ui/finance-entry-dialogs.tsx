@@ -311,7 +311,7 @@ export function FinanceEntryDialogs({
 					</a>
 				) : null}
 				<button
-					className="purchases-button purchases-button--amber focus-ring"
+					className="hm-action focus-ring"
 					onClick={() => setDialog("expense")}
 					title="Gasto del proyecto: mano de obra, servicios o material comprado en obra"
 					type="button"
@@ -319,7 +319,7 @@ export function FinanceEntryDialogs({
 					<ReceiptText aria-hidden="true" size={17} /> Gasto del proyecto
 				</button>
 				<button
-					className="purchases-button purchases-button--green focus-ring"
+					className="hm-action hm-action--primary focus-ring"
 					onClick={() => setDialog("payment")}
 					title="Dinero recibido del cliente"
 					type="button"

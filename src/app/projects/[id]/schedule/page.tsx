@@ -1,10 +1,4 @@
-import {
-	CalendarDays,
-	CheckCircle2,
-	Clock3,
-	Printer,
-	Undo2,
-} from "lucide-react";
+import { CalendarDays, Printer, Undo2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requirePermission } from "@/modules/auth/application/authorization";
 import { getProjectById } from "@/modules/projects/application/queries";
@@ -17,6 +11,7 @@ import { getProjectSchedule } from "@/modules/schedules/application/queries";
 import type { ScheduleInput } from "@/modules/schedules/domain/validation";
 import { scheduleActivityStatusLabels } from "@/modules/schedules/domain/validation";
 import { ScheduleForm } from "@/modules/schedules/ui/schedule-form";
+import { StatStrip } from "@/shared/ui/stat-strip";
 
 function toScheduleInput(
 	schedule: NonNullable<Awaited<ReturnType<typeof getProjectSchedule>>>,
@@ -152,28 +147,22 @@ export default async function ProjectSchedulePage({
 				</section>
 			) : (
 				<>
-					<section className="kpi-grid grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-						{[
+					<StatStrip
+						items={[
 							{
 								label: "Actividades",
 								value: String(total),
 								detail: `${inProgress} en proceso`,
-								icon: CalendarDays,
-								tone: "bg-[#253033]",
 							},
 							{
 								label: "Completadas",
 								value: String(completed),
 								detail: `${averageProgress.toFixed(1)}% promedio`,
-								icon: CheckCircle2,
-								tone: "bg-[#2563eb]",
 							},
 							{
 								label: "Rango",
 								value: `${formatDateInput(schedule.startDate)} - ${formatDateInput(schedule.endDate)}`,
 								detail: `${blocked} bloqueadas`,
-								icon: Clock3,
-								tone: "bg-[#f2a900]",
 							},
 							{
 								label: "Estado",
@@ -182,37 +171,13 @@ export default async function ProjectSchedulePage({
 										? scheduleActivityStatusLabels.COMPLETED
 										: scheduleActivityStatusLabels.IN_PROGRESS,
 								detail: "Dominante",
-								icon: CalendarDays,
-								tone: "bg-[var(--success)]",
 							},
-						].map((metric) => {
-							const Icon = metric.icon;
-							return (
-								<article
-									className="group relative overflow-hidden rounded-2xl border border-[#cfd5ce] bg-white p-4 shadow-[0_16px_38px_rgba(37,48,51,0.09)] transition duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_24px_54px_rgba(37,48,51,0.15)] motion-reduce:transform-none motion-reduce:transition-none"
-									key={metric.label}
-								>
-									<span
-										className={`pointer-events-none absolute inset-x-0 top-0 h-[3px] ${metric.tone}`}
-									/>
-									<span
-										className={`absolute right-4 top-4 grid size-11 place-items-center rounded-xl text-white shadow-[0_12px_24px_rgba(37,48,51,0.18)] transition duration-200 group-hover:-rotate-3 group-hover:scale-105 ${metric.tone}`}
-									>
-										<Icon aria-hidden="true" size={18} />
-									</span>
-									<p className="text-xs font-bold uppercase tracking-[0.12em] text-[#58635f]">
-										{metric.label}
-									</p>
-									<strong className="mt-3 block pr-12 text-xl font-semibold leading-tight tabular-nums">
-										{metric.value}
-									</strong>
-									<p className="mt-2 text-sm text-[var(--muted)]">
-										{metric.detail}
-									</p>
-								</article>
-							);
-						})}
-					</section>
+						].map((metric) => ({
+							...metric,
+							key: metric.label,
+						}))}
+						label="Resumen del cronograma"
+					/>
 					<ScheduleForm
 						initialValue={toScheduleInput(schedule)}
 						readOnly={!canEdit}

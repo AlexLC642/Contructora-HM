@@ -81,6 +81,19 @@ export default async function DailyReportDetailPage({
 	const correcting = reviewing && query.corregir === "1";
 
 	if (isDraft || correcting) {
+		// DailyReportForm corre en el navegador: Decimal y Date de Prisma deben
+		// llegarle como valores JSON simples.
+		const clientWorkspace = JSON.parse(
+			JSON.stringify({
+				...workspace,
+				latestReport: report,
+				editInReview: correcting,
+			}),
+		) as typeof workspace & {
+			latestReport: typeof report;
+			editInReview: boolean;
+		};
+
 		return (
 			<main className="mx-auto max-w-[1480px] space-y-5">
 				<ReportHeader
@@ -104,14 +117,7 @@ export default async function DailyReportDetailPage({
 					</p>
 				) : null}
 				<DailyReportEvidenceGallery editable projectId={id} report={report} />
-				<DailyReportForm
-					action={saveAction}
-					workspace={{
-						...workspace,
-						latestReport: report,
-						editInReview: correcting,
-					}}
-				/>
+				<DailyReportForm action={saveAction} workspace={clientWorkspace} />
 			</main>
 		);
 	}

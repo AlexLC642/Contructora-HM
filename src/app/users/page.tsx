@@ -1,5 +1,4 @@
 import {
-	Activity,
 	ArrowRight,
 	Building2,
 	CheckCircle2,
@@ -11,10 +10,8 @@ import {
 	Plus,
 	ShieldCheck,
 	SlidersHorizontal,
-	UserCheck,
 	UserRound,
 	UsersRound,
-	UserX,
 } from "lucide-react";
 import type { Route } from "next";
 import Link from "next/link";
@@ -47,6 +44,8 @@ import { ManagementDialog } from "@/modules/users/ui/management-dialog";
 import { RevokePasskeysButton } from "@/modules/users/ui/revoke-passkeys-button";
 import { RoleChecklist } from "@/modules/users/ui/role-checklist";
 import { UserStatusToggle } from "@/modules/users/ui/user-status-toggle";
+import { PageHeader } from "@/shared/ui/page-header";
+import { StatStrip } from "@/shared/ui/stat-strip";
 
 const fieldClass =
 	"focus-ring h-11 w-full rounded-lg border border-[#cfd4ce] bg-white px-3 text-sm text-[#111719] shadow-[inset_0_1px_2px_rgba(19,31,29,0.04)] transition placeholder:text-[#7c8681] hover:border-[#9ea8a2]";
@@ -111,80 +110,6 @@ function FieldLabel({ children }: { children: ReactNode }) {
 	);
 }
 
-function Stat({
-	detail,
-	icon: Icon,
-	label,
-	progress,
-	tone,
-	value,
-}: {
-	detail: string;
-	icon: typeof UsersRound;
-	label: string;
-	progress: number;
-	tone: "red" | "green" | "amber" | "steel";
-	value: number;
-}) {
-	const tones = {
-		red: {
-			bar: "bg-[#cf2435]",
-			icon: "bg-[#fde9eb] text-[#b52130]",
-			value: "text-[#b52130]",
-			accent: "#cf2435",
-		},
-		green: {
-			bar: "bg-[#23835f]",
-			icon: "bg-[#e5f5ed] text-[#176c4b]",
-			value: "text-[#176c4b]",
-			accent: "#23835f",
-		},
-		amber: {
-			bar: "bg-[#b77912]",
-			icon: "bg-[#fff2d6] text-[#895b0d]",
-			value: "text-[#895b0d]",
-			accent: "#b77912",
-		},
-		steel: {
-			bar: "bg-[#30383b]",
-			icon: "bg-[#e9ece9] text-[#30383b]",
-			value: "text-[#111719]",
-			accent: "#30383b",
-		},
-	}[tone];
-	return (
-		<article
-			className="access-kpi group relative overflow-hidden rounded-2xl p-5 shadow-[0_16px_40px_rgba(25,31,33,0.11),0_2px_8px_rgba(25,31,33,0.05)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_22px_54px_rgba(25,31,33,0.15),0_3px_10px_rgba(25,31,33,0.06)] motion-reduce:transform-none motion-reduce:transition-none"
-			style={{ "--kpi-accent": tones.accent } as React.CSSProperties}
-		>
-			<div className="flex items-start justify-between gap-4">
-				<div>
-					<p className="text-xs font-bold uppercase tracking-[0.12em] text-[#65706b]">
-						{label}
-					</p>
-					<p
-						className={`mt-3 text-4xl font-bold leading-none tabular-nums tracking-[-0.04em] ${tones.value}`}
-					>
-						{value}
-					</p>
-				</div>
-				<span
-					className={`grid size-11 place-items-center rounded-xl ${tones.icon}`}
-				>
-					<Icon aria-hidden="true" size={20} strokeWidth={2} />
-				</span>
-			</div>
-			<p className="mt-3 text-sm font-medium text-[#4f5a55]">{detail}</p>
-			<div className="mt-4 h-1.5 overflow-hidden rounded-full bg-[#e8ebe6]">
-				<div
-					className={`h-full rounded-full transition-[width] duration-500 motion-reduce:transition-none ${tones.bar}`}
-					style={{ width: `${Math.max(progress, value > 0 ? 8 : 0)}%` }}
-				/>
-			</div>
-		</article>
-	);
-}
-
 export default async function UsersPage() {
 	const currentUser = await requireAuthenticatedUser();
 	const canManageUsers = isUserAdministrator(currentUser.roles);
@@ -203,216 +128,196 @@ export default async function UsersPage() {
 
 	return (
 		<main className="users-workspace mx-auto max-w-[1440px] space-y-6 px-1 pb-10">
-			<section className="users-hero relative overflow-hidden rounded-2xl bg-[#202629] px-5 py-6 text-white shadow-[0_22px_58px_rgba(25,31,33,0.24)] sm:px-7 sm:py-7">
-				<div
-					aria-hidden="true"
-					className="absolute inset-y-0 right-0 w-[42%] opacity-20 [background-image:linear-gradient(135deg,transparent_45%,#fff_45%,#fff_46%,transparent_46%,transparent_54%,#fff_54%,#fff_55%,transparent_55%)] [background-size:72px_72px]"
-				/>
-				<div className="relative flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-					<div className="max-w-2xl">
-						<h1 className="text-3xl font-bold tracking-[-0.03em] sm:text-4xl">
-							{canManageUsers ? "Usuarios y accesos" : "Mi cuenta y seguridad"}
-						</h1>
-						<p className="mt-2 max-w-xl text-sm leading-6 text-[#d7ddda] sm:text-base">
-							{canManageUsers
-								? "Administra cuentas, roles y accesos del personal."
-								: "Administra tu contraseña y los accesos biométricos de tus dispositivos."}
-						</p>
-					</div>
-					{canManageUsers ? (
-						<ManagementDialog
-							description="Crea una cuenta interna y asigna su acceso inicial."
-							icon={<UserRound aria-hidden="true" size={19} />}
-							title="Nuevo usuario"
-							trigger={
-								<>
-									<Plus aria-hidden="true" size={18} /> Nuevo usuario
-								</>
-							}
-							triggerClassName="focus-ring inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-[var(--brand-red)] px-5 text-sm font-bold text-white shadow-[0_10px_26px_rgba(200,32,47,0.3)] transition hover:bg-[#ae1c29]"
-						>
-							<form action={createInternalUserAction} className="grid gap-5">
-								<input name="status" type="hidden" value="ACTIVE" />
-								<div className="rounded-xl bg-white p-4 shadow-[0_10px_28px_rgba(25,31,33,0.08)] sm:p-5">
-									<div className="mb-4 flex items-center gap-3">
-										<span className="grid size-9 place-items-center rounded-lg bg-[#edf0ec] text-[#30383b]">
-											<UserRound aria-hidden="true" size={18} />
-										</span>
-										<div>
-											<h3 className="font-bold">Datos de la cuenta</h3>
-											<p className="text-xs text-[#65706b]">
-												El acceso se creará activo. Después podrá configurar su
-												propio dispositivo.
-											</p>
-										</div>
-									</div>
-									<div className="grid gap-4">
-										<label className="grid gap-1.5">
-											<FieldLabel>Nombre completo</FieldLabel>
-											<input
-												autoComplete="name"
-												className={fieldClass}
-												name="name"
-												required
-												placeholder="Ej. Ana López"
-											/>
-										</label>
-										<label className="grid gap-1.5">
-											<FieldLabel>Usuario corporativo</FieldLabel>
-											<div className="flex h-12 overflow-hidden rounded-lg border border-[#c7cdc7] bg-white shadow-[inset_0_1px_2px_rgba(25,31,33,0.04)] transition focus-within:border-[#76817b] focus-within:ring-2 focus-within:ring-[#202629]/15">
-												<span className="grid w-12 shrink-0 place-items-center border-r border-[#dde1dc] bg-[#f1f3ef] text-[#5f6964]">
-													<Mail aria-hidden="true" size={18} />
-												</span>
-												<input
-													aria-describedby="company-domain"
-													autoComplete="username"
-													className="min-w-0 flex-1 px-3 text-base outline-none placeholder:text-[#7c8681]"
-													name="email"
-													required
-													placeholder="ana.lopez"
-												/>
-												<span
-													className="hidden shrink-0 items-center border-l border-[#dde1dc] bg-[#f1f3ef] px-3 text-sm font-semibold text-[#4f5a55] sm:flex"
-													id="company-domain"
-												>
-													@{COMPANY_EMAIL_DOMAIN}
-												</span>
-											</div>
-											<span className="text-xs text-[#65706b] sm:hidden">
-												Se agregará @{COMPANY_EMAIL_DOMAIN}
-											</span>
-										</label>
-										<label className="grid gap-1.5">
-											<FieldLabel>Teléfono</FieldLabel>
-											<div className="flex h-12 overflow-hidden rounded-lg border border-[#c7cdc7] bg-white shadow-[inset_0_1px_2px_rgba(25,31,33,0.04)] transition focus-within:border-[#76817b] focus-within:ring-2 focus-within:ring-[#202629]/15">
-												<span className="grid w-12 shrink-0 place-items-center border-r border-[#dde1dc] bg-[#f1f3ef] text-[#5f6964]">
-													<Phone aria-hidden="true" size={18} />
-												</span>
-												<input
-													aria-describedby="phone-help"
-													autoComplete="tel-national"
-													className="min-w-0 flex-1 px-3 text-base tabular-nums outline-none placeholder:text-[#7c8681]"
-													inputMode="numeric"
-													maxLength={8}
-													minLength={8}
-													name="phone"
-													pattern="[0-9]{8}"
-													required
-													placeholder="55551234"
-												/>
-											</div>
-											<span className="text-xs text-[#65706b]" id="phone-help">
-												Número nacional de 8 dígitos, sin espacios ni guiones.
-											</span>
-										</label>
+			<PageHeader
+				description={
+					canManageUsers
+						? "Administra cuentas, roles y accesos del personal."
+						: "Administra tu contraseña y los accesos biométricos de tus dispositivos."
+				}
+				title={canManageUsers ? "Usuarios y accesos" : "Mi cuenta y seguridad"}
+			>
+				{canManageUsers ? (
+					<ManagementDialog
+						description="Crea una cuenta interna y asigna su acceso inicial."
+						icon={<UserRound aria-hidden="true" size={19} />}
+						title="Nuevo usuario"
+						trigger={
+							<>
+								<Plus aria-hidden="true" size={18} /> Nuevo usuario
+							</>
+						}
+						triggerClassName="hm-action hm-action--primary focus-ring"
+					>
+						<form action={createInternalUserAction} className="grid gap-5">
+							<input name="status" type="hidden" value="ACTIVE" />
+							<div className="rounded-xl bg-white p-4 shadow-[0_10px_28px_rgba(25,31,33,0.08)] sm:p-5">
+								<div className="mb-4 flex items-center gap-3">
+									<span className="grid size-9 place-items-center rounded-lg bg-[#edf0ec] text-[#30383b]">
+										<UserRound aria-hidden="true" size={18} />
+									</span>
+									<div>
+										<h3 className="font-bold">Datos de la cuenta</h3>
+										<p className="text-xs text-[#65706b]">
+											El acceso se creará activo. Después podrá configurar su
+											propio dispositivo.
+										</p>
 									</div>
 								</div>
-								<div className="rounded-xl bg-[#f4f7f4] p-4 shadow-[inset_0_0_0_1px_rgba(207,214,208,0.9)] sm:p-5">
-									<RoleChecklist
-										disabledRoleKeys={
-											currentUserIsSuperAdministrator
-												? []
-												: ["administrador", "superadministrador"]
-										}
-										hasSuperAdministrator={hasSuperAdministrator}
-										initialSelectedIds={[]}
-										roles={roles.map((role) => ({
-											id: role.id,
-											key: role.key,
-											name: role.name,
-											description: role.description,
-											permissionCount: role.permissions.length,
-										}))}
+								<div className="grid gap-4">
+									<label className="grid gap-1.5">
+										<FieldLabel>Nombre completo</FieldLabel>
+										<input
+											autoComplete="name"
+											className={fieldClass}
+											name="name"
+											required
+											placeholder="Ej. Ana López"
+										/>
+									</label>
+									<label className="grid gap-1.5">
+										<FieldLabel>Usuario corporativo</FieldLabel>
+										<div className="flex h-12 overflow-hidden rounded-lg border border-[#c7cdc7] bg-white shadow-[inset_0_1px_2px_rgba(25,31,33,0.04)] transition focus-within:border-[#76817b] focus-within:ring-2 focus-within:ring-[#202629]/15">
+											<span className="grid w-12 shrink-0 place-items-center border-r border-[#dde1dc] bg-[#f1f3ef] text-[#5f6964]">
+												<Mail aria-hidden="true" size={18} />
+											</span>
+											<input
+												aria-describedby="company-domain"
+												autoComplete="username"
+												className="min-w-0 flex-1 px-3 text-base outline-none placeholder:text-[#7c8681]"
+												name="email"
+												required
+												placeholder="ana.lopez"
+											/>
+											<span
+												className="hidden shrink-0 items-center border-l border-[#dde1dc] bg-[#f1f3ef] px-3 text-sm font-semibold text-[#4f5a55] sm:flex"
+												id="company-domain"
+											>
+												@{COMPANY_EMAIL_DOMAIN}
+											</span>
+										</div>
+										<span className="text-xs text-[#65706b] sm:hidden">
+											Se agregará @{COMPANY_EMAIL_DOMAIN}
+										</span>
+									</label>
+									<label className="grid gap-1.5">
+										<FieldLabel>Teléfono</FieldLabel>
+										<div className="flex h-12 overflow-hidden rounded-lg border border-[#c7cdc7] bg-white shadow-[inset_0_1px_2px_rgba(25,31,33,0.04)] transition focus-within:border-[#76817b] focus-within:ring-2 focus-within:ring-[#202629]/15">
+											<span className="grid w-12 shrink-0 place-items-center border-r border-[#dde1dc] bg-[#f1f3ef] text-[#5f6964]">
+												<Phone aria-hidden="true" size={18} />
+											</span>
+											<input
+												aria-describedby="phone-help"
+												autoComplete="tel-national"
+												className="min-w-0 flex-1 px-3 text-base tabular-nums outline-none placeholder:text-[#7c8681]"
+												inputMode="numeric"
+												maxLength={8}
+												minLength={8}
+												name="phone"
+												pattern="[0-9]{8}"
+												required
+												placeholder="55551234"
+											/>
+										</div>
+										<span className="text-xs text-[#65706b]" id="phone-help">
+											Número nacional de 8 dígitos, sin espacios ni guiones.
+										</span>
+									</label>
+								</div>
+							</div>
+							<div className="rounded-xl bg-[#f4f7f4] p-4 shadow-[inset_0_0_0_1px_rgba(207,214,208,0.9)] sm:p-5">
+								<RoleChecklist
+									disabledRoleKeys={
+										currentUserIsSuperAdministrator
+											? []
+											: ["administrador", "superadministrador"]
+									}
+									hasSuperAdministrator={hasSuperAdministrator}
+									initialSelectedIds={[]}
+									roles={roles.map((role) => ({
+										id: role.id,
+										key: role.key,
+										name: role.name,
+										description: role.description,
+										permissionCount: role.permissions.length,
+									}))}
+								/>
+							</div>
+							<label className="grid gap-1.5">
+								<FieldLabel>Contraseña inicial</FieldLabel>
+								<div className="flex h-12 overflow-hidden rounded-lg border border-[#c7cdc7] bg-white transition focus-within:border-[#76817b] focus-within:ring-2 focus-within:ring-[#202629]/15">
+									<span className="grid w-12 shrink-0 place-items-center border-r border-[#dde1dc] bg-[#f1f3ef] text-[#5f6964]">
+										<LockKeyhole aria-hidden="true" size={18} />
+									</span>
+									<input
+										autoComplete="new-password"
+										className="min-w-0 flex-1 px-3 text-base outline-none placeholder:text-[#7c8681]"
+										id="new-user-password"
+										name="password"
+										required
+										minLength={PASSWORD_MIN_LENGTH}
+										pattern={PASSWORD_HTML_PATTERN}
+										placeholder="Mínimo 10 caracteres"
+										title={PASSWORD_POLICY_HINT}
+										type="password"
 									/>
 								</div>
-								<label className="grid gap-1.5">
-									<FieldLabel>Contraseña inicial</FieldLabel>
-									<div className="flex h-12 overflow-hidden rounded-lg border border-[#c7cdc7] bg-white transition focus-within:border-[#76817b] focus-within:ring-2 focus-within:ring-[#202629]/15">
-										<span className="grid w-12 shrink-0 place-items-center border-r border-[#dde1dc] bg-[#f1f3ef] text-[#5f6964]">
-											<LockKeyhole aria-hidden="true" size={18} />
-										</span>
-										<input
-											autoComplete="new-password"
-											className="min-w-0 flex-1 px-3 text-base outline-none placeholder:text-[#7c8681]"
-											id="new-user-password"
-											name="password"
-											required
-											minLength={PASSWORD_MIN_LENGTH}
-											pattern={PASSWORD_HTML_PATTERN}
-											placeholder="Mínimo 10 caracteres"
-											title={PASSWORD_POLICY_HINT}
-											type="password"
-										/>
-									</div>
-									<PasswordRequirements inputId="new-user-password" />
-								</label>
-								<div className="flex items-center justify-between gap-4 border-t border-[#d9ddd7] pt-4">
-									<p className="max-w-56 text-xs leading-5 text-[#65706b]">
-										Los permisos se combinan automáticamente cuando asignas más
-										de un rol.
-									</p>
-									<button
-										className="focus-ring inline-flex h-12 shrink-0 items-center gap-2 rounded-xl bg-[var(--brand-red)] px-5 text-sm font-bold text-white shadow-[0_14px_30px_rgba(200,32,47,0.28)] transition hover:-translate-y-0.5 hover:bg-[#ae1c29] motion-reduce:transform-none"
-										type="submit"
-									>
-										<CheckCircle2 aria-hidden="true" size={17} /> Crear acceso
-									</button>
-								</div>
-							</form>
-						</ManagementDialog>
-					) : (
-						<Link
-							className="focus-ring inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-white px-5 text-sm font-bold text-[#202629] shadow-[0_10px_26px_rgba(0,0,0,0.2)] transition hover:bg-[#f2f4f1]"
-							href={"/account/security" as Route}
-						>
-							<DevicePasskeyMark size={18} /> Configurar huella o patrón
-						</Link>
-					)}
-				</div>
-			</section>
+								<PasswordRequirements inputId="new-user-password" />
+							</label>
+							<div className="flex items-center justify-between gap-4 border-t border-[#d9ddd7] pt-4">
+								<p className="max-w-56 text-xs leading-5 text-[#65706b]">
+									Los permisos se combinan automáticamente cuando asignas más de
+									un rol.
+								</p>
+								<button
+									className="focus-ring inline-flex h-12 shrink-0 items-center gap-2 rounded-xl bg-[var(--brand-red)] px-5 text-sm font-bold text-white shadow-[0_14px_30px_rgba(200,32,47,0.28)] transition hover:-translate-y-0.5 hover:bg-[#ae1c29] motion-reduce:transform-none"
+									type="submit"
+								>
+									<CheckCircle2 aria-hidden="true" size={17} /> Crear acceso
+								</button>
+							</div>
+						</form>
+					</ManagementDialog>
+				) : (
+					<Link
+						className="focus-ring inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-white px-5 text-sm font-bold text-[#202629] shadow-[0_10px_26px_rgba(0,0,0,0.2)] transition hover:bg-[#f2f4f1]"
+						href={"/account/security" as Route}
+					>
+						<DevicePasskeyMark size={18} /> Configurar huella o patrón
+					</Link>
+				)}
+			</PageHeader>
 
 			{canManageUsers ? (
-				<section
-					className="kpi-grid grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
-					aria-label="Resumen de accesos"
-				>
-					<Stat
-						detail="Cuentas registradas"
-						icon={UsersRound}
-						label="Personal"
-						progress={100}
-						tone="steel"
-						value={users.length}
-					/>
-					<Stat
-						detail={`${users.length > 0 ? Math.round((activeUsers / users.length) * 100) : 0}% con acceso vigente`}
-						icon={UserCheck}
-						label="Accesos activos"
-						progress={users.length > 0 ? (activeUsers / users.length) * 100 : 0}
-						tone="green"
-						value={activeUsers}
-					/>
-					<Stat
-						detail="Acceso temporalmente detenido"
-						icon={UserX}
-						label="Suspendidos"
-						progress={
-							users.length > 0 ? (inactiveUsers / users.length) * 100 : 0
-						}
-						tone="red"
-						value={inactiveUsers}
-					/>
-					<Stat
-						detail={`${roles.length} perfiles configurados`}
-						icon={Activity}
-						label="Roles en uso"
-						progress={
-							roles.length > 0 ? (assignedRoles / roles.length) * 100 : 0
-						}
-						tone="amber"
-						value={assignedRoles}
-					/>
-				</section>
+				<StatStrip
+					items={[
+						{
+							key: "people",
+							label: "Personal",
+							value: users.length,
+							detail: "Cuentas registradas",
+						},
+						{
+							key: "active",
+							label: "Accesos activos",
+							value: activeUsers,
+							detail: `${users.length > 0 ? Math.round((activeUsers / users.length) * 100) : 0}% con acceso vigente`,
+						},
+						{
+							key: "suspended",
+							label: "Suspendidos",
+							value: inactiveUsers,
+							detail: "Acceso temporalmente detenido",
+							attention: inactiveUsers > 0 ? "warning" : undefined,
+						},
+						{
+							key: "roles",
+							label: "Roles en uso",
+							value: assignedRoles,
+							detail: `${roles.length} perfiles configurados`,
+						},
+					]}
+					label="Resumen de accesos"
+				/>
 			) : null}
 
 			<section className="users-panel overflow-hidden rounded-2xl bg-white shadow-[0_18px_52px_rgba(25,31,33,0.12)]">

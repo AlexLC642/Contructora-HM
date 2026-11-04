@@ -15,6 +15,7 @@ import { normalizeLaborUnit } from "@/modules/budgets/domain/units";
 import type { BudgetVersionInput } from "@/modules/budgets/domain/validation";
 import { BudgetForm } from "@/modules/budgets/ui/budget-form";
 import { getProjectById } from "@/modules/projects/application/queries";
+import { StatStrip } from "@/shared/ui/stat-strip";
 
 const currencyFormatter = new Intl.NumberFormat("es-GT", {
 	style: "currency",
@@ -29,29 +30,6 @@ function optionalDecimalToString(
 	value: { toString(): string } | null | undefined,
 ) {
 	return value?.toString() ?? "";
-}
-
-function BudgetKpi({
-	label,
-	value,
-	valueClassName = "text-[var(--foreground)]",
-}: {
-	label: string;
-	value: string;
-	valueClassName?: string;
-}) {
-	return (
-		<div className="budget-kpi relative overflow-hidden rounded-xl p-3.5 transition duration-200 hover:-translate-y-0.5">
-			<p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--muted)]">
-				{label}
-			</p>
-			<strong
-				className={`mt-1.5 block truncate text-lg font-bold tabular-nums ${valueClassName}`}
-			>
-				{value}
-			</strong>
-		</div>
-	);
 }
 
 function budgetStatusLabel(status: string) {
@@ -188,34 +166,41 @@ export default async function ProjectBudgetPage({
 				</section>
 			) : (
 				<>
-					<section className="kpi-grid grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
-						<BudgetKpi
-							label="Version"
-							value={`v${currentVersion.versionNumber}`}
-						/>
-						<BudgetKpi
-							label="Estado"
-							value={budgetStatusLabel(currentVersion.status)}
-						/>
-						<BudgetKpi
-							label="Presupuesto base"
-							value={currencyFormatter.format(baseTotal?.toNumber() ?? 0)}
-						/>
-						<BudgetKpi
-							label="Variaciones aprobadas"
-							value={currencyFormatter.format(budgetChanges.total.toNumber())}
-							valueClassName="text-[#a36b00]"
-						/>
-						<BudgetKpi
-							label="Presupuesto vigente"
-							value={currencyFormatter.format(currentTotal?.toNumber() ?? 0)}
-							valueClassName="text-[#176f54]"
-						/>
-						<BudgetKpi
-							label="Aprobado por"
-							value={currentVersion.approvedBy?.name ?? "Pendiente"}
-						/>
-					</section>
+					<StatStrip
+						items={[
+							{
+								key: "version",
+								label: "Versión",
+								value: `v${currentVersion.versionNumber}`,
+							},
+							{
+								key: "status",
+								label: "Estado",
+								value: budgetStatusLabel(currentVersion.status),
+							},
+							{
+								key: "base",
+								label: "Presupuesto base",
+								value: currencyFormatter.format(baseTotal?.toNumber() ?? 0),
+							},
+							{
+								key: "changes",
+								label: "Variaciones aprobadas",
+								value: currencyFormatter.format(budgetChanges.total.toNumber()),
+							},
+							{
+								key: "current",
+								label: "Presupuesto vigente",
+								value: currencyFormatter.format(currentTotal?.toNumber() ?? 0),
+							},
+							{
+								key: "approved",
+								label: "Aprobado por",
+								value: currentVersion.approvedBy?.name ?? "Pendiente",
+							},
+						]}
+						label="Resumen del presupuesto"
+					/>
 
 					{budgetChanges.items.length > 0 ? (
 						<section className="overflow-hidden rounded-2xl border border-[#ead9a8] bg-[#fffaf0] shadow-[0_14px_32px_rgba(96,70,15,0.08)]">

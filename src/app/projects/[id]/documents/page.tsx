@@ -2,15 +2,12 @@ import {
 	Archive,
 	ArchiveRestore,
 	ArrowLeft,
-	CheckCircle2,
 	Download,
 	Eye,
 	FileArchive,
-	Files,
 	FileText,
 	Globe,
 	History,
-	Layers3,
 	Lock,
 	Pencil,
 	Play,
@@ -18,7 +15,6 @@ import {
 	Search,
 	Trash2,
 	Upload,
-	Users,
 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requirePermission } from "@/modules/auth/application/authorization";
@@ -42,7 +38,6 @@ import { DocumentEditDrawer } from "@/modules/documents/ui/document-edit-drawer"
 import { DocumentPreviewModal } from "@/modules/documents/ui/document-preview-modal";
 import {
 	DocumentEmpty,
-	DocumentMetric,
 	DocumentStatus,
 } from "@/modules/documents/ui/document-ui";
 import { DocumentUploadDrawer } from "@/modules/documents/ui/document-upload-drawer";
@@ -53,6 +48,8 @@ import {
 	ActionMenuScope,
 	ActionMenuSeparator,
 } from "@/shared/ui/action-menu";
+import { PageHeader } from "@/shared/ui/page-header";
+import { StatStrip } from "@/shared/ui/stat-strip";
 
 const dateFormatter = new Intl.DateTimeFormat("es-GT", {
 	dateStyle: "medium",
@@ -367,7 +364,7 @@ export default async function ProjectDocumentsPage({
 	}
 
 	return (
-		<main className="documents-project-workspace mx-auto max-w-none space-y-5">
+		<main className="documents-project-workspace mx-auto max-w-none space-y-3">
 			<nav className="flex items-center gap-2 text-xs font-medium text-[var(--muted)]">
 				<a
 					className="hover:text-[var(--brand-red)] hover:underline"
@@ -381,63 +378,61 @@ export default async function ProjectDocumentsPage({
 				</span>
 			</nav>
 
-			<section className="documents-hero">
-				<div className="relative z-10 flex flex-wrap items-center justify-between gap-5">
-					<div className="flex flex-1 items-start gap-4">
-						<span className="documents-hero__icon">
-							<FileArchive aria-hidden="true" size={21} />
-						</span>
-						<div className="min-w-0">
-							<h1 className="text-3xl font-extrabold leading-tight tracking-[-0.035em] text-white">
-								{workspace.project.name}
-							</h1>
-							<p className="mt-2 text-sm font-medium text-[#c4ceca]">
-								Expediente {workspace.project.code}
-							</p>
-						</div>
-					</div>
+			<PageHeader
+				description={`Expediente ${workspace.project.code}: contratos, planos, finanzas e informes de la obra.`}
+				title={workspace.project.name}
+			>
+				<a
+					className="hm-action focus-ring"
+					href={`/projects/${workspace.project.id}`}
+				>
+					<ArrowLeft aria-hidden="true" size={16} />
+					Volver
+				</a>
+				{canEdit && (
 					<a
-						className="documents-secondary-action focus-ring"
-						href={`/projects/${workspace.project.id}`}
+						className="hm-action hm-action--primary focus-ring"
+						href={baseHref({ upload: "true" })}
 					>
-						<ArrowLeft aria-hidden="true" size={16} />
-						Volver
+						<Plus aria-hidden="true" size={16} />
+						Subir documento
 					</a>
-				</div>
-			</section>
+				)}
+			</PageHeader>
 
-			<section className="kpi-grid grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-				<DocumentMetric
-					detail="Archivos del proyecto"
-					icon={Files}
-					label="Documentos"
-					value={workspace.documents.length}
-				/>
-				<DocumentMetric
-					detail="Historial disponible"
-					icon={Layers3}
-					label="Versiones"
-					tone="amber"
-					value={versionCount}
-				/>
-				<DocumentMetric
-					detail="Listos para operar"
-					icon={CheckCircle2}
-					label="Aprobados"
-					tone="green"
-					value={approvedCount}
-				/>
-				<DocumentMetric
-					detail="Disponibles en portal"
-					icon={Users}
-					label="Visible al cliente"
-					tone="red"
-					value={portalCount}
-				/>
-			</section>
+			<StatStrip
+				compact
+				items={[
+					{
+						key: "documents",
+						label: "Documentos",
+						value: workspace.documents.length,
+						detail: "Archivos del proyecto",
+					},
+					{
+						key: "versions",
+						label: "Versiones",
+						value: versionCount,
+						detail: "Historial disponible",
+					},
+					{
+						key: "approved",
+						label: "Aprobados",
+						value: approvedCount,
+						detail: "Listos para operar",
+					},
+					{
+						key: "portal",
+						label: "Visible al cliente",
+						value: portalCount,
+						detail: "Disponibles en portal",
+					},
+				]}
+				label="Resumen del expediente"
+			/>
 
 			<ActionMenuScope className="space-y-4">
-				<div className="documents-panel space-y-4 p-4">
+				<div className="documents-panel documents-project-toolbar">
 					<nav
 						aria-label="Categorías documentales"
 						className="documents-tabs documents-scrollbar max-w-full overflow-x-auto"
@@ -453,10 +448,10 @@ export default async function ProjectDocumentsPage({
 						))}
 					</nav>
 
-					<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+					<div className="documents-project-toolbar__tools">
 						<form
 							action={`/projects/${workspace.project.id}/documents`}
-							className="documents-search flex-1 sm:max-w-md"
+							className="documents-search"
 							method="GET"
 						>
 							<Search aria-hidden="true" size={16} />
@@ -479,15 +474,6 @@ export default async function ProjectDocumentsPage({
 								{showArchived
 									? "Ocultar archivados"
 									: `Ver archivados (${archivedCount})`}
-							</a>
-						)}
-						{canEdit && (
-							<a
-								className="documents-primary-action focus-ring"
-								href={baseHref({ upload: "true" })}
-							>
-								<Plus aria-hidden="true" size={16} />
-								Subir documento
 							</a>
 						)}
 					</div>

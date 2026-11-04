@@ -3,11 +3,9 @@ import {
 	CalendarClock,
 	Camera,
 	ExternalLink,
-	Globe,
 	Inbox,
 	Layers,
 	Mail,
-	MessageSquareText,
 	Plus,
 	Trash2,
 } from "lucide-react";
@@ -35,6 +33,8 @@ import {
 import { WebsiteGalleryUploadForm } from "@/modules/website/ui/website-gallery-upload-form";
 import { WebsiteServiceIconPicker } from "@/modules/website/ui/website-service-icon-picker";
 import { WebsiteSettingsEditor } from "@/modules/website/ui/website-settings-editor";
+import { PageHeader } from "@/shared/ui/page-header";
+import { StatStrip } from "@/shared/ui/stat-strip";
 
 const inputClass =
 	"website-admin-control focus-ring h-11 w-full px-3 text-sm text-[var(--foreground)] transition placeholder:text-[#8b9691]";
@@ -67,53 +67,6 @@ function Field({
 			{hint ? (
 				<span className="text-xs text-[var(--muted)]">{hint}</span>
 			) : null}
-		</div>
-	);
-}
-
-function Metric({
-	label,
-	value,
-	detail,
-	icon: Icon,
-	tone,
-}: {
-	label: string;
-	value: string;
-	detail: string;
-	icon: typeof Globe;
-	tone: "red" | "green" | "amber" | "steel";
-}) {
-	const toneClass = {
-		red: "bg-[var(--brand-red)] text-white",
-		green: "bg-[var(--success)] text-white",
-		amber: "bg-[var(--safety)] text-[#211b09]",
-		steel: "bg-[var(--steel)] text-white",
-	}[tone];
-
-	return (
-		<div
-			className="website-metric !min-h-[7.5rem] !p-3 sm:!min-h-[8.35rem] sm:!p-[1.15rem]"
-			data-tone={tone}
-		>
-			<div className="flex items-start justify-between gap-3">
-				<div>
-					<p className="text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-[#58635f] sm:text-xs">
-						{label}
-					</p>
-					<p className="mt-2 text-2xl font-semibold leading-none tabular-nums text-[#101416] sm:text-3xl">
-						{value}
-					</p>
-					<p className="mt-2 text-xs text-[var(--muted)] sm:text-sm">
-						{detail}
-					</p>
-				</div>
-				<span
-					className={`website-metric__icon !size-9 sm:!size-[2.8rem] ${toneClass}`}
-				>
-					<Icon aria-hidden="true" size={18} />
-				</span>
-			</div>
 		</div>
 	);
 }
@@ -165,71 +118,61 @@ export default async function WebsitePage({
 
 	return (
 		<main className="website-admin mx-auto max-w-[1400px] space-y-5">
-			<section className="website-admin-hero overflow-hidden rounded-2xl bg-[#172123] text-white shadow-[0_26px_65px_rgba(17,28,27,0.24)]">
-				<div className="website-admin-hero__layout flex flex-wrap items-center justify-between gap-5 p-6 sm:p-7">
-					<div className="flex items-center gap-3">
-						<span className="grid size-14 shrink-0 place-items-center rounded-xl bg-white/10 text-white">
-							<Globe aria-hidden="true" size={24} />
-						</span>
-						<h1 className="sr-only">Sitio web</h1>
-					</div>
-					<div className="website-admin-hero__actions flex flex-wrap items-center gap-2">
-						<span
-							className={`rounded-full border px-4 py-2 text-xs font-semibold ${settings.published ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-100" : "border-amber-400/40 bg-amber-400/10 text-amber-100"}`}
-						>
-							{settings.published ? "Sitio publicado" : "Sitio oculto"}
-						</span>
-						<a
-							className="website-public-link focus-ring inline-flex min-h-10 items-center gap-2 rounded-xl bg-white px-4 text-xs font-semibold text-[#172123] shadow-[0_10px_26px_rgba(0,0,0,0.18)] transition hover:bg-[#edf2ee]"
-							href={
-								activeTab === "servicios"
-									? "/servicios"
-									: activeTab === "galeria"
-										? "/proyectos"
-										: "/"
-							}
-							target="_blank"
-							rel="noreferrer"
-						>
-							Ver sitio público <ExternalLink aria-hidden="true" size={14} />
-						</a>
-					</div>
-				</div>
-			</section>
-
-			<section
-				aria-label="Resumen del sitio web"
-				className="grid grid-cols-2 gap-3 xl:grid-cols-4"
+			<PageHeader
+				description="Administra lo que se publica en el sitio: inicio, servicios, proyectos y contacto."
+				title="Sitio web"
 			>
-				<Metric
-					detail="Visibles en /servicios"
-					icon={Layers}
-					label="Servicios activos"
-					tone="steel"
-					value={String(activeServices)}
-				/>
-				<Metric
-					detail="Visibles en /proyectos"
-					icon={Camera}
-					label="Fotos publicadas"
-					tone="green"
-					value={String(activePhotos)}
-				/>
-				<Metric
-					detail="Sin atender"
-					icon={Inbox}
-					label="Solicitudes nuevas"
-					tone="amber"
-					value={String(newInquiries)}
-				/>
-				<Metric
-					detail="Total recibidas"
-					icon={MessageSquareText}
-					label="Solicitudes totales"
-					tone="red"
-					value={String(inquiries.length)}
-				/>
-			</section>
+				<span
+					className="hm-status"
+					data-tone={settings.published ? "good" : "muted"}
+				>
+					{settings.published ? "Sitio publicado" : "Sitio oculto"}
+				</span>
+				<a
+					className="hm-action focus-ring"
+					href={
+						activeTab === "servicios"
+							? "/servicios"
+							: activeTab === "galeria"
+								? "/proyectos"
+								: "/"
+					}
+					rel="noreferrer"
+					target="_blank"
+				>
+					Ver sitio público <ExternalLink aria-hidden="true" size={14} />
+				</a>
+			</PageHeader>
+
+			<StatStrip
+				items={[
+					{
+						key: "servicios-activos",
+						label: "Servicios activos",
+						value: String(activeServices),
+						detail: "Visibles en /servicios",
+					},
+					{
+						key: "fotos-publicadas",
+						label: "Fotos publicadas",
+						value: String(activePhotos),
+						detail: "Visibles en /proyectos",
+					},
+					{
+						key: "solicitudes-nuevas",
+						label: "Solicitudes nuevas",
+						value: String(newInquiries),
+						detail: "Sin atender",
+					},
+					{
+						key: "solicitudes-totales",
+						label: "Solicitudes totales",
+						value: String(inquiries.length),
+						detail: "Total recibidas",
+					},
+				]}
+				label="Resumen del sitio web"
+			/>
 
 			<nav
 				aria-label="Secciones del sitio web"

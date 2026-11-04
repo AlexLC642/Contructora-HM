@@ -1,14 +1,10 @@
 import {
-	Banknote,
 	Calculator,
 	CheckCircle2,
 	CircleAlert,
-	CreditCard,
 	FolderKanban,
-	Landmark,
 	type LucideIcon,
 	Printer,
-	ReceiptText,
 	Scale,
 	Tags,
 	WalletCards,
@@ -42,6 +38,8 @@ import {
 	resolveFinanceTab,
 } from "@/modules/finances/ui/finance-workspace-tabs";
 import { AutoFilterForm } from "@/shared/ui/auto-filter-form";
+import { PageHeader } from "@/shared/ui/page-header";
+import { StatStrip } from "@/shared/ui/stat-strip";
 
 const money = new Intl.NumberFormat("es-GT", {
 	style: "currency",
@@ -52,62 +50,7 @@ function percentOf(value: number, total: number) {
 	return total > 0 ? (value / total) * 100 : 0;
 }
 
-type MetricTone = "graphite" | "green" | "blue" | "amber" | "red";
-
 /** Same KPI card as the other modules (coloured top rule + tinted icon). */
-function Metric({
-	label,
-	value,
-	detail,
-	icon: Icon,
-	tone,
-	valueTone,
-	meter,
-}: {
-	label: string;
-	value: number;
-	detail: ReactNode;
-	icon: LucideIcon;
-	tone: MetricTone;
-	valueTone?: "good" | "bad";
-	meter?: number;
-}) {
-	return (
-		<article className="inventory-metric" data-tone={tone}>
-			<div className="min-w-0 flex-1">
-				<p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#53605b]">
-					{label}
-				</p>
-				<strong
-					className="mt-3 block text-[1.45rem] font-bold leading-none tracking-[-0.02em] tabular-nums"
-					style={{
-						color:
-							valueTone === "bad"
-								? "var(--danger)"
-								: valueTone === "good"
-									? "var(--success)"
-									: "var(--foreground)",
-					}}
-				>
-					{money.format(value)}
-				</strong>
-				{meter !== undefined ? (
-					<div className="fin-meter mt-3">
-						<span
-							className={meter > 100 ? "is-over" : undefined}
-							style={{ width: `${Math.min(100, Math.max(0, meter))}%` }}
-						/>
-					</div>
-				) : null}
-				<p className="mt-2 text-xs font-medium text-[#63706b]">{detail}</p>
-			</div>
-			<span className="inventory-metric-icon">
-				<Icon aria-hidden="true" size={19} />
-			</span>
-		</article>
-	);
-}
-
 /** Same panel + header as the other modules (red accent rule, dark icon). */
 function Panel({
 	title,
@@ -349,131 +292,131 @@ export default async function FinancesPage({
 
 	return (
 		<main className="finances-workspace mx-auto max-w-[1520px] space-y-5 pb-10">
-			{/* ---- Command bar: same graphite bar as Inventario / Compras ---- */}
-			<section className="inventory-commandbar p-5 text-white sm:p-6">
-				<div className="relative flex flex-wrap items-start justify-between gap-4">
-					<div className="flex min-w-0 items-center gap-3.5">
-						<span className="grid size-12 shrink-0 place-items-center rounded-xl bg-[var(--brand-red)] text-white shadow-[0_12px_28px_rgba(200,32,47,0.34)]">
-							<Landmark aria-hidden="true" size={22} />
-						</span>
-						<div className="min-w-0">
-							<h1 className="text-2xl font-bold leading-tight tracking-[-0.02em] text-white">
-								Finanzas
-							</h1>
-							<p className="truncate text-sm text-white/65">
-								{selectedProject
-									? `${selectedProject.code} · ${selectedProject.name}`
-									: "Sin proyectos disponibles"}
-							</p>
-						</div>
-					</div>
-					{selectedProject ? (
-						<div className="flex flex-wrap items-center gap-2">
-							<Link
-								className="purchases-button purchases-button--light focus-ring"
-								href={`/projects/${projectId}` as Route}
-							>
-								<FolderKanban aria-hidden="true" size={17} /> Proyecto
-							</Link>
-							<Link
-								className="purchases-button purchases-button--light focus-ring"
-								href={`/finances/print?projectId=${projectId}` as Route}
-							>
-								<Printer aria-hidden="true" size={17} /> Estado de cuenta PDF
-							</Link>
-						</div>
-					) : null}
-				</div>
-				<div className="relative mt-5 flex flex-wrap items-end justify-between gap-3 border-t border-white/10 pt-5">
-					<AutoFilterForm action="/finances" className="w-full max-w-xl">
-						<label className="fin-field fin-field--on-dark">
-							<span>Proyecto</span>
-							<select
-								className="fin-input"
-								defaultValue={projectId}
-								name="projectId"
-							>
-								{projects.map((project) => (
-									<option key={project.id} value={project.id}>
-										{project.code} · {project.name}
-									</option>
-								))}
-							</select>
-						</label>
-						<input name="tab" type="hidden" value={tab} />
-					</AutoFilterForm>
-					{selectedProject && canRegister ? (
-						<FinanceEntryDialogs
-							invoiceOrders={invoiceOrders}
-							projectId={projectId}
-							sections={budgetSections.map((section) => ({
-								id: section.id,
-								code: section.code,
-								name: section.name,
-								total: section.clientPrice.toString(),
-							}))}
-							today={today}
-						/>
-					) : null}
-				</div>
+			<PageHeader
+				description={
+					selectedProject
+						? `${selectedProject.code} · ${selectedProject.name}`
+						: "Sin proyectos disponibles"
+				}
+				title="Finanzas"
+			>
+				{selectedProject ? (
+					<>
+						<Link
+							className="hm-action focus-ring"
+							href={`/projects/${projectId}` as Route}
+						>
+							<FolderKanban aria-hidden="true" size={17} /> Proyecto
+						</Link>
+						<Link
+							className="hm-action focus-ring"
+							href={`/finances/print?projectId=${projectId}` as Route}
+						>
+							<Printer aria-hidden="true" size={17} /> Estado de cuenta PDF
+						</Link>
+					</>
+				) : null}
+			</PageHeader>
+
+			<section className="hm-toolbar">
+				<AutoFilterForm action="/finances" className="hm-toolbar__field">
+					<label className="fin-field">
+						<span>Proyecto</span>
+						<select
+							className="fin-input"
+							defaultValue={projectId}
+							name="projectId"
+						>
+							{projects.map((project) => (
+								<option key={project.id} value={project.id}>
+									{project.code} · {project.name}
+								</option>
+							))}
+						</select>
+					</label>
+					<input name="tab" type="hidden" value={tab} />
+				</AutoFilterForm>
+				{selectedProject && canRegister ? (
+					<FinanceEntryDialogs
+						invoiceOrders={invoiceOrders}
+						projectId={projectId}
+						sections={budgetSections.map((section) => ({
+							id: section.id,
+							code: section.code,
+							name: section.name,
+							total: section.clientPrice.toString(),
+						}))}
+						today={today}
+					/>
+				) : null}
 			</section>
 
 			{selectedProject ? (
 				<>
 					{/* ---- One set of exact figures (no repeats further down) ---- */}
-					<section className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-						<Metric
-							detail={
-								budgetDifference >= 0
-									? `Disponible ${money.format(budgetDifference)}`
-									: `Excedido por ${money.format(-budgetDifference)}`
-							}
-							icon={Calculator}
-							label="Presupuesto"
-							tone="graphite"
-							valueTone={budgetDifference < 0 ? "bad" : undefined}
-							value={totalBudget}
-						/>
-						<Metric
-							detail={`${spentPct.toFixed(1)}% del presupuesto · ${validExpenses.length} gastos`}
-							icon={ReceiptText}
-							label="Gastado"
-							meter={spentPct}
-							tone="red"
-							valueTone={spentPct > 100 ? "bad" : undefined}
-							value={totalExpenses}
-						/>
-						<Metric
-							detail={`${receivedPct.toFixed(1)}% del presupuesto · ${registeredPayments.length} abonos`}
-							icon={Banknote}
-							label="Abonado por el cliente"
-							tone="green"
-							valueTone="good"
-							value={totalPayments}
-						/>
-						<Metric
-							detail="Abonos recibidos menos pagos a proveedores"
-							icon={WalletCards}
-							label="Saldo en caja"
-							tone="blue"
-							valueTone={cashBalance < 0 ? "bad" : undefined}
-							value={cashBalance}
-						/>
-						<Metric
-							detail={
-								overdueCount > 0
-									? `A proveedores · ${overdueCount} ${overdueCount === 1 ? "vencida" : "vencidas"}`
-									: supplierPending > 0
-										? "A proveedores · sin vencidas"
-										: "A proveedores · todo pagado"
-							}
-							icon={CreditCard}
-							label="Por pagar"
-							tone={overdueCount > 0 ? "red" : "amber"}
-							valueTone={overdueCount > 0 ? "bad" : undefined}
-							value={supplierPending}
-						/>
-					</section>
+					<StatStrip
+						items={[
+							{
+								key: "budget",
+								label: "Presupuesto",
+								value: money.format(totalBudget),
+								detail:
+									budgetDifference >= 0
+										? `Disponible ${money.format(budgetDifference)}`
+										: `Excedido por ${money.format(-budgetDifference)}`,
+								attention: budgetDifference < 0 ? "danger" : undefined,
+							},
+							{
+								key: "spent",
+								label: "Gastado",
+								value: (
+									<span className={spentPct > 100 ? "hm-text-bad" : undefined}>
+										{money.format(totalExpenses)}
+									</span>
+								),
+								detail: `${spentPct.toFixed(1)}% del presupuesto · ${validExpenses.length} gastos`,
+							},
+							{
+								key: "received",
+								label: "Abonado por el cliente",
+								value: (
+									<span className="hm-text-good">
+										{money.format(totalPayments)}
+									</span>
+								),
+								detail: `${receivedPct.toFixed(1)}% del presupuesto · ${registeredPayments.length} abonos`,
+							},
+							{
+								key: "cash",
+								label: "Saldo en caja",
+								value: (
+									<span className={cashBalance < 0 ? "hm-text-bad" : undefined}>
+										{money.format(cashBalance)}
+									</span>
+								),
+								detail: "Abonos recibidos menos pagos a proveedores",
+							},
+							{
+								key: "payable",
+								label: "Por pagar",
+								value: (
+									<span
+										className={overdueCount > 0 ? "hm-text-bad" : undefined}
+									>
+										{money.format(supplierPending)}
+									</span>
+								),
+								detail:
+									overdueCount > 0
+										? `A proveedores · ${overdueCount} ${overdueCount === 1 ? "vencida" : "vencidas"}`
+										: supplierPending > 0
+											? "A proveedores · sin vencidas"
+											: "A proveedores · todo pagado",
+								attention: overdueCount > 0 ? "danger" : undefined,
+							},
+						]}
+						label="Resumen financiero"
+					/>
 
 					<section className="inventory-panel">
 						<FinanceWorkspaceTabs

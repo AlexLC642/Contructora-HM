@@ -3208,7 +3208,7 @@
 .requisition-items-builder__heading h3 {
 	color: #14201d;
 	font-size: 1rem;
-	font-weight: 800;
+	font-weight: 700;
 }
 
 .requisition-items-builder__heading p {
@@ -3257,7 +3257,7 @@
 	background: #202d2e;
 	color: #fff;
 	font-size: 0.76rem;
-	font-weight: 800;
+	font-weight: 700;
 }
 
 .requisition-line__header > div {
@@ -3450,7 +3450,7 @@
 	margin-bottom: 0.65rem;
 	color: #53615b;
 	font-size: 0.66rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 }
@@ -3493,7 +3493,7 @@
 	border-radius: 999px;
 	background: #fff;
 	font-size: 0.66rem;
-	font-weight: 800;
+	font-weight: 700;
 }
 
 .requisition-progress li strong,
@@ -5000,7 +5000,7 @@ textarea.focus-ring:focus-visible {
 .inventory-table th {
 	padding: 0.75rem 1rem;
 	font-size: 0.7rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.11em;
 	text-align: left;
 	text-transform: uppercase;
@@ -5286,7 +5286,7 @@ textarea.focus-ring:focus-visible {
 .reports-eyebrow {
 	color: #53615c;
 	font-size: 0.66rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.13em;
 	text-transform: uppercase;
 }
@@ -5390,7 +5390,7 @@ textarea.focus-ring:focus-visible {
 	gap: 0.42rem;
 	color: #53615c;
 	font-size: 0.65rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.11em;
 	text-transform: uppercase;
 }
@@ -5474,7 +5474,7 @@ textarea.focus-ring:focus-visible {
 	background: #f1f4f0;
 	color: #5a6762;
 	font-size: 0.58rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
 }
@@ -5837,7 +5837,7 @@ textarea.focus-ring:focus-visible {
 .documents-label {
 	color: #53615c;
 	font-size: 0.65rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
 }
@@ -5998,7 +5998,7 @@ textarea.focus-ring:focus-visible {
 	background: #fce9eb;
 	color: #b91c2c;
 	font-size: 0.7rem;
-	font-weight: 800;
+	font-weight: 700;
 }
 .documents-project-link:hover {
 	background: #f8d8dc;
@@ -6010,7 +6010,7 @@ textarea.focus-ring:focus-visible {
 	gap: 0.42rem;
 	color: #53615c;
 	font-size: 0.65rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
 }
@@ -6101,7 +6101,7 @@ textarea.focus-ring:focus-visible {
 	background: #edf4ff;
 	color: #315b98;
 	font-size: 0.68rem;
-	font-weight: 800;
+	font-weight: 700;
 }
 .documents-status {
 	display: inline-flex;
@@ -7116,7 +7116,7 @@ textarea.focus-ring:focus-visible {
 	background: #c8202f;
 	color: #fff;
 	font-size: 0.7rem;
-	font-weight: 800;
+	font-weight: 700;
 	line-height: 1;
 }
 
@@ -7413,7 +7413,7 @@ textarea.focus-ring:focus-visible {
 .dashboard-eyebrow {
 	color: var(--brand-red);
 	font-size: 0.72rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.24em;
 	text-transform: uppercase;
 }
@@ -8184,7 +8184,7 @@ textarea.focus-ring:focus-visible {
 
 .portal-tab-label {
 	font-size: 0.9rem;
-	font-weight: 800;
+	font-weight: 700;
 }
 
 .portal-tab-detail {
@@ -8263,7 +8263,7 @@ textarea.focus-ring:focus-visible {
 	margin: 0;
 	color: var(--foreground, #101618);
 	font-size: 1.08rem;
-	font-weight: 800;
+	font-weight: 700;
 }
 
 .portal-chart-head p {
@@ -8282,7 +8282,7 @@ textarea.focus-ring:focus-visible {
 	color: var(--success, #1f7a5a);
 	padding: 0.4rem 0.7rem;
 	font-size: 0.78rem;
-	font-weight: 800;
+	font-weight: 700;
 	white-space: nowrap;
 }
 
@@ -8911,7 +8911,7 @@ input[id^="tab-seguridad-"]:checked
 .requisitions-field-label {
 	color: #53615c;
 	font-size: 0.68rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.09em;
 	text-transform: uppercase;
 }
@@ -9110,7 +9110,7 @@ input[id^="tab-seguridad-"]:checked
 .requisitions-row__number {
 	color: #172021;
 	font-size: 1.2rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: -0.02em;
 }
 
@@ -9240,7 +9240,7 @@ input[id^="tab-seguridad-"]:checked
 	border-radius: 999px;
 	padding: 0.2rem 0.46rem;
 	font-size: 0.62rem;
-	font-weight: 800;
+	font-weight: 700;
 	font-variant-numeric: tabular-nums;
 }
 
@@ -9428,7 +9428,7 @@ input[id^="tab-seguridad-"]:checked
 	border-radius: 999px;
 	background: #edf1ed;
 	color: #25322f;
-	font-weight: 800;
+	font-weight: 700;
 }
 .requisitions-flow__step:nth-child(5) > span,
 .requisitions-flow__step:nth-child(6) > span {
@@ -9460,7 +9460,7 @@ input[id^="tab-seguridad-"]:checked
 	margin-left: auto;
 	color: #745016;
 	font-size: 0.78rem;
-	font-weight: 800;
+	font-weight: 700;
 	text-decoration: underline;
 }
 
@@ -9488,7 +9488,7 @@ input[id^="tab-seguridad-"]:checked
 .requisitions-eyebrow {
 	color: #b51e2c;
 	font-size: 0.64rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
 }
@@ -9506,7 +9506,7 @@ input[id^="tab-seguridad-"]:checked
 	color: #53615c;
 	padding: 0.75rem 1rem;
 	font-size: 0.67rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.08em;
 	text-align: right;
 	text-transform: uppercase;
@@ -9540,7 +9540,7 @@ input[id^="tab-seguridad-"]:checked
 	background: #fff2dc;
 	color: #85570b;
 	padding: 0.3rem 0.58rem;
-	font-weight: 800;
+	font-weight: 700;
 }
 
 .requisitions-filters {
@@ -9647,7 +9647,7 @@ input[id^="tab-seguridad-"]:checked
 	color: #fff;
 	padding: 0.65rem 0.9rem;
 	font-size: 0.78rem;
-	font-weight: 800;
+	font-weight: 700;
 }
 
 .requisitions-modal-backdrop {
@@ -9803,7 +9803,7 @@ input[id^="tab-seguridad-"]:checked
 	color: #85570b;
 	padding: 0.3rem 0.55rem;
 	font-size: 0.68rem;
-	font-weight: 800;
+	font-weight: 700;
 	white-space: nowrap;
 }
 .requisitions-plan-grid {
@@ -11104,7 +11104,7 @@ input[id^="tab-seguridad-"]:checked
 .website-live-preview__contact > small {
 	color: #ffb7bf;
 	font-size: 0.7rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
 }
@@ -11211,7 +11211,7 @@ input[id^="tab-seguridad-"]:checked
 .website-live-preview__pages > small {
 	color: #ffb7bf;
 	font-size: 0.7rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.14em;
 	text-transform: uppercase;
 }
@@ -19993,7 +19993,7 @@ input[id^="tab-seguridad-"]:checked
 		margin: 1.75rem 0 0.35rem;
 		color: var(--brand-red);
 		font-size: 0.75rem;
-		font-weight: 800;
+		font-weight: 700;
 		letter-spacing: 0.14em;
 	}
 
@@ -25575,7 +25575,7 @@ div.hm-stat:hover {
 	padding-bottom: 0.7rem;
 	color: #fff;
 	font-size: 0.8rem;
-	font-weight: 800;
+	font-weight: 700;
 	letter-spacing: 0.06em;
 }
 .document-file-card__badge[data-kind="word"] {
@@ -26075,7 +26075,6 @@ div.hm-stat:hover {
 	}
 }
 
-
 /* Inventario · resumen visual: valor por material y reposición. */
 .inventory-overview {
 	display: grid;
@@ -26220,7 +26219,6 @@ div.hm-stat:hover {
 		grid-template-columns: 1fr;
 	}
 }
-
 
 /* Inventario · bodegas como tarjetas y existencias por tipo. */
 .inventory-warehouses {
@@ -26440,7 +26438,6 @@ div.hm-stat:hover {
 	font-weight: 600;
 }
 
-
 /* Inventario · Movimientos: pestañas por tipo y filtros dentro del Kardex. */
 .inventory-type-tabs {
 	display: flex;
@@ -26494,7 +26491,6 @@ div.hm-stat:hover {
 .inventory-kardex {
 	table-layout: fixed;
 }
-
 
 /* Inventario · Stock: acabado limpio (sombras suaves, menos ruido). */
 .inventory-overview {
@@ -26678,7 +26674,9 @@ button.inventory-catalog-tab:disabled {
 	font-size: 0.75rem;
 	font-weight: 600;
 }
-.purchases-order-form .purchases-quick-material__types label:has(input:checked) {
+.purchases-order-form
+	.purchases-quick-material__types
+	label:has(input:checked) {
 	border-color: var(--foreground);
 	background: var(--foreground);
 	color: var(--surface);
@@ -26690,7 +26688,9 @@ button.inventory-catalog-tab:disabled {
 	min-height: 0;
 	opacity: 0;
 }
-.purchases-order-form .purchases-quick-material__types label:has(input:focus-visible) {
+.purchases-order-form
+	.purchases-quick-material__types
+	label:has(input:focus-visible) {
 	outline: 2px solid var(--primary);
 	outline-offset: 2px;
 }
@@ -26746,4 +26746,1310 @@ button.inventory-catalog-tab:disabled {
 	.creator-sign {
 		display: none;
 	}
+}
+
+/* Listas del Dashboard (Alertas, Actividad reciente): altura fija con
+   desplazamiento interno para que el panel no se alargue. El padding deja
+   espacio a las sombras y al leve desplazamiento de las tarjetas al pasar. */
+.dashboard-scroll-list {
+	max-height: 26rem;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	align-content: start;
+	margin: -0.4rem -0.5rem 0;
+	padding: 0.4rem 0.5rem 0.75rem;
+	border-radius: 14px;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(83, 96, 91, 0.35) transparent;
+}
+.dashboard-scroll-list:focus-visible {
+	outline: 2px solid var(--brand-red);
+	outline-offset: 2px;
+}
+.dashboard-scroll-list::-webkit-scrollbar {
+	width: 6px;
+}
+.dashboard-scroll-list::-webkit-scrollbar-thumb {
+	border-radius: 999px;
+	background: rgba(83, 96, 91, 0.35);
+}
+@media (max-width: 639px) {
+	.dashboard-scroll-list {
+		max-height: 22rem;
+	}
+}
+@media print {
+	.dashboard-scroll-list {
+		max-height: none;
+		overflow: visible;
+	}
+}
+
+/* Filas del Dashboard con altura común: los paneles vecinos miden lo mismo y
+   su lista ocupa el espacio restante con desplazamiento propio, así no quedan
+   huecos vacíos cuando un panel tiene más contenido que el otro. */
+.dashboard-panel-center {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	justify-content: center;
+}
+@media (min-width: 768px) {
+	.dashboard-row-fixed > .executive-panel {
+		display: flex;
+		height: var(--dashboard-row-height, 34rem);
+		flex-direction: column;
+	}
+	.dashboard-row-fixed > .executive-panel > .dashboard-scroll-list {
+		flex: 1 1 0;
+		min-height: 0;
+		max-height: none;
+	}
+}
+
+/* Estado del portafolio: tabla con alto máximo y encabezado fijo. */
+.dashboard-table-scroll {
+	max-height: 36rem;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(83, 96, 91, 0.35) transparent;
+}
+.dashboard-table-scroll thead th {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	background: inherit;
+}
+@media print {
+	.dashboard-row-fixed > .executive-panel {
+		height: auto;
+	}
+	.dashboard-table-scroll {
+		max-height: none;
+		overflow: visible;
+	}
+}
+
+/* Filas de gráficas: si un panel es más bajo que su vecino, su contenido se
+   centra verticalmente en vez de dejar un bloque vacío al final. */
+@media (min-width: 768px) {
+	.dashboard-row-balance > .executive-panel {
+		display: flex;
+		flex-direction: column;
+	}
+	.dashboard-row-balance > .executive-panel > :last-child {
+		margin-block: auto;
+	}
+}
+
+/* ==========================================================================
+   Capa de calma del sistema interno.
+   Quita el ruido que saturaba las pantallas sin ocultar información: íconos de
+   colores, degradados, sombras apiladas, tiras decorativas y cajas dentro de
+   cajas. Los colores quedan solo para lo que significa algo (estados, alertas,
+   acción principal). Va al final y con !important porque reemplaza a capas
+   anteriores de este mismo archivo; no aplica a impresión ni a vistas PDF.
+   ========================================================================== */
+@media screen {
+	/* Menú lateral: solo la sección activa se marca. */
+	.app-shell .app-shell-nav {
+		gap: 0.125rem;
+	}
+	.app-shell .app-shell-nav-link--inactive,
+	.app-shell .app-shell-nav-link--active {
+		border-color: transparent !important;
+		box-shadow: none !important;
+	}
+	.app-shell .app-shell-nav-link--inactive {
+		background: transparent !important;
+	}
+	.app-shell .app-shell-nav-link--inactive:hover {
+		background: rgba(255, 255, 255, 0.08) !important;
+	}
+	.app-shell .app-shell-nav-link--active {
+		background: rgba(255, 255, 255, 0.12) !important;
+		box-shadow: inset 3px 0 0 var(--brand-red) !important;
+	}
+
+	/* Encabezados de módulo: una banda sólida, sin brillo ni textura. */
+	.app-shell:not(:has(.print-surface))
+	:is(.inventory-commandbar, .budget-financial-summary__heading) {
+		background: #1f2a2c !important;
+		border-color: transparent !important;
+		box-shadow: none !important;
+		backdrop-filter: none !important;
+		-webkit-backdrop-filter: none !important;
+	}
+	.app-shell:not(:has(.print-surface)) :is(.inventory-commandbar)::after {
+		display: none;
+	}
+
+	/* Indicadores: el monto es lo importante; el ícono acompaña sin competir. */
+	.app-shell:not(:has(.print-surface))
+	:is(
+		.project-kpi,
+		.executive-kpi,
+		.access-kpi,
+		.inventory-metric,
+		.reports-metric,
+		.documents-metric,
+		.requisitions-metric,
+		.budget-kpi,
+		.projects-kpis > div
+	) {
+		min-height: 0;
+		border: 1px solid var(--border) !important;
+		border-radius: 12px;
+		background: var(--surface) !important;
+		box-shadow: none !important;
+		backdrop-filter: none !important;
+		-webkit-backdrop-filter: none !important;
+		padding: 1rem;
+	}
+	.app-shell:not(:has(.print-surface))
+		:is(
+			.project-kpi,
+			.executive-kpi,
+			.access-kpi,
+			.inventory-metric,
+			.reports-metric,
+			.documents-metric,
+			.requisitions-metric
+		)::before,
+	.app-shell:not(:has(.print-surface))
+		:is(
+			.project-kpi,
+			.executive-kpi,
+			.access-kpi,
+			.inventory-metric,
+			.reports-metric,
+			.documents-metric,
+			.requisitions-metric
+		)::after {
+		display: none;
+	}
+	.app-shell:not(:has(.print-surface))
+		:is(
+			.project-kpi,
+			.executive-kpi,
+			.access-kpi,
+			.inventory-metric,
+			.reports-metric,
+			.documents-metric,
+			.requisitions-metric,
+			.projects-kpis > div
+		):hover {
+		border-color: color-mix(
+			in srgb,
+			var(--foreground) 28%,
+			var(--border)
+		) !important;
+		box-shadow: none !important;
+		transform: none;
+	}
+	.app-shell:not(:has(.print-surface))
+		:is(
+			.project-kpi-icon,
+			.executive-kpi__icon,
+			.inventory-metric-icon,
+			.reports-metric__icon,
+			.documents-metric__icon,
+			.requisitions-metric__icon
+		) {
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0.1rem;
+		border: 0 !important;
+		border-radius: 0;
+		background: transparent !important;
+		color: var(--muted) !important;
+		box-shadow: none !important;
+		transform: none !important;
+	}
+	.app-shell:not(:has(.print-surface))
+		.project-kpi
+		> .text-xs:not(.project-kpi-icon) {
+		display: block;
+		padding-right: 1.75rem;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		letter-spacing: 0;
+		text-transform: none;
+	}
+	.app-shell:not(:has(.print-surface))
+		:is(.project-kpi, .inventory-metric)
+		strong {
+		font-size: clamp(1.15rem, 1.45vw, 1.45rem);
+		font-weight: 600;
+		line-height: 1.2;
+	}
+	/* Montos completos: seis columnas angostas los partirían en dos líneas. */
+	@media (min-width: 1280px) {
+		.app-shell .kpi-grid.xl\:grid-cols-6 {
+			grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+		}
+	}
+
+	/* Paneles: superficie plana, una sola línea de borde. */
+	.app-shell:not(:has(.print-surface))
+	:is(
+		.project-panel,
+		.executive-panel,
+		.projects-panel,
+		.projects-filter-panel,
+		.inventory-panel,
+		.documents-panel,
+		.documents-project-card,
+		.reports-panel,
+		.reports-filters,
+		.reports-tabs,
+		.users-panel,
+		.purchases-tabs,
+		.purchases-toolbar,
+		.purchases-order-filters,
+		.purchases-order-detail,
+		.purchases-credit-tracker,
+		.budget-measurement-guide,
+		.budget-financial-summary
+	) {
+		border-color: var(--border) !important;
+		background: var(--surface) !important;
+		box-shadow: none !important;
+		backdrop-filter: none !important;
+		-webkit-backdrop-filter: none !important;
+	}
+	.app-shell:not(:has(.print-surface))
+		:is(
+			.executive-panel,
+			.inventory-panel,
+			.documents-project-card,
+			.purchases-credit-tracker
+		)::before,
+	.app-shell:not(:has(.print-surface))
+		:is(
+			.executive-panel,
+			.inventory-panel,
+			.documents-project-card,
+			.purchases-credit-tracker
+		)::after {
+		display: none;
+	}
+
+	/* Título de panel: sin recuadro propio dentro del panel. */
+	.app-shell:not(:has(.print-surface)) .project-panel-header {
+		background: transparent !important;
+		box-shadow: none !important;
+	}
+
+	/* Listado de proyectos: una fila por proyecto, sin cajas interiores. */
+	.app-shell .projects-list__row {
+		background: transparent !important;
+		box-shadow: none !important;
+	}
+	.app-shell .projects-list__fact {
+		border-radius: 0;
+		background: transparent !important;
+		box-shadow: none !important;
+		padding: 0;
+	}
+	@media (min-width: 1100px) {
+		.app-shell .projects-list__row {
+			grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.8fr) minmax(0, 1fr);
+			align-items: start;
+			gap: 0.75rem 2rem;
+		}
+		.app-shell .projects-list__row > :last-child {
+			grid-column: 1 / -1;
+		}
+	}
+
+	/* Etiquetas: mayúsculas con espaciado amplio cansan cuando se repiten. */
+	.app-shell:not(:has(.print-surface))
+		main
+		:is(
+			[class*="tracking-[0.08em]"],
+			[class*="tracking-[0.12em]"],
+			[class*="tracking-[0.14em]"],
+			[class*="tracking-[0.16em]"],
+			[class*="tracking-[0.22em]"]
+		) {
+		letter-spacing: 0.03em;
+	}
+
+	/* La barra de color de los indicadores de Proyectos no comunicaba nada. */
+	.app-shell .projects-kpis > div > div > span:last-child {
+		display: none;
+	}
+
+	/* Íconos de encabezado de panel: acompañan al título, no pesan más que él. */
+	.app-shell main span.size-10[class*="bg-[#202a2c]"] {
+		background: var(--surface-inset) !important;
+		color: var(--muted) !important;
+		box-shadow: none !important;
+	}
+
+	/* Botones de color: texto blanco legible (una capa anterior lo oscurecía). */
+	.app-shell main :is(a, button).text-white,
+	.app-shell main :is(a, button).text-white svg {
+		color: #fff !important;
+	}
+	.app-shell main a[class*="bg-[linear-gradient(180deg,#1d8b63"] {
+		background: #167154 !important;
+		box-shadow: none !important;
+	}
+
+	/* En una tabla, la acción de cada fila no compite con la acción principal. */
+	.app-shell .reports-row-action--dark {
+		border-color: var(--border) !important;
+		background: var(--surface) !important;
+		color: var(--foreground) !important;
+		box-shadow: none !important;
+	}
+}
+
+/* ==========================================================================
+   Encabezado común, estados de interacción y animaciones de carga.
+   ========================================================================== */
+.hm-page-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 1rem 1.5rem;
+	padding: 0.25rem 0.15rem 0;
+}
+.hm-page-header__copy {
+	display: grid;
+	flex: 1 1 20rem;
+	gap: 0.3rem;
+	min-width: 0;
+}
+.hm-page-header__copy h1 {
+	color: var(--foreground);
+	font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+	font-weight: 700;
+	letter-spacing: -0.03em;
+	line-height: 1.1;
+}
+.hm-page-header__copy p {
+	color: var(--muted);
+	font-size: 0.875rem;
+	line-height: 1.45;
+}
+.hm-page-header__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+.hm-action {
+	display: inline-flex;
+	min-height: 2.75rem;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	background: var(--surface);
+	padding: 0 1rem;
+	color: var(--foreground);
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+.hm-action--primary {
+	border-color: transparent;
+	background: var(--brand-red);
+	color: #fff;
+}
+
+/* Documentos por proyecto: toda la tarjeta abre el expediente. */
+.app-shell .documents-project-card {
+	min-height: 0;
+	gap: 0.85rem;
+	border-radius: 14px;
+	padding: 1rem;
+	color: inherit;
+	text-decoration: none;
+}
+.documents-project-card__head {
+	display: flex;
+	align-items: center;
+	gap: 0.85rem;
+}
+.documents-project-card__head h3 {
+	color: var(--foreground);
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.25;
+}
+.documents-project-card__head p {
+	display: -webkit-box;
+	overflow: hidden;
+	margin-top: 0.15rem;
+	color: var(--muted);
+	font-size: 0.8125rem;
+	line-height: 1.35;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+.documents-project-card__tags {
+	display: flex;
+	flex: 1 1 auto;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	gap: 0.35rem;
+}
+.documents-project-card__tags span {
+	border-radius: 999px;
+	background: var(--surface-inset);
+	padding: 0.2rem 0.55rem;
+	color: var(--foreground);
+	font-size: 0.75rem;
+}
+.documents-project-card__tags em {
+	color: var(--muted);
+	font-size: 0.8125rem;
+	font-style: normal;
+}
+.documents-project-card__foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	border-top: 1px solid var(--border);
+	padding-top: 0.7rem;
+	color: var(--muted);
+	font-size: 0.75rem;
+}
+.documents-project-card__foot strong {
+	color: var(--foreground);
+	font-weight: 600;
+}
+
+/* Sin esto se ve lo que pasa por debajo de la barra superior al desplazarse. */
+.app-shell .app-shell-topbar {
+	background: var(--surface) !important;
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
+}
+
+@media screen {
+	/* Al pasar el cursor se sombrea; al presionar cambia de color. */
+	.app-shell:not(:has(.print-surface))
+		main
+		:is(
+			tbody tr,
+			.projects-list__row,
+			.req-row,
+			.purchases-order-row,
+			.documents-project-card,
+			a.hm-stat,
+			button.hm-stat,
+			a.project-kpi,
+			a.executive-kpi
+		) {
+		transition:
+			background-color 140ms ease,
+			border-color 140ms ease,
+			box-shadow 140ms ease;
+	}
+	.app-shell:not(:has(.print-surface))
+		main
+		:is(tbody tr, .projects-list__row, .req-row, .purchases-order-row):hover {
+		background-color: color-mix(
+			in srgb,
+			var(--foreground) 6%,
+			transparent
+		) !important;
+	}
+	.app-shell:not(:has(.print-surface)) main tbody tr:hover > :first-child,
+	.app-shell:not(:has(.print-surface))
+		main
+		:is(.projects-list__row, .req-row):hover {
+		box-shadow: inset 3px 0 0 var(--brand-red) !important;
+	}
+	.app-shell:not(:has(.print-surface))
+		main
+		:is(tbody tr, .projects-list__row, .req-row, .purchases-order-row):active {
+		background-color: color-mix(
+			in srgb,
+			var(--brand-red) 10%,
+			transparent
+		) !important;
+	}
+	.app-shell:not(:has(.print-surface))
+		main
+		:is(.documents-project-card, a.project-kpi, a.executive-kpi):hover {
+		border-color: color-mix(
+			in srgb,
+			var(--foreground) 35%,
+			var(--border)
+		) !important;
+		background: color-mix(
+			in srgb,
+			var(--foreground) 4%,
+			var(--surface)
+		) !important;
+		box-shadow: 0 6px 16px rgba(20, 28, 30, 0.08) !important;
+	}
+	.app-shell:not(:has(.print-surface))
+		main
+		:is(a.hm-stat, button.hm-stat):hover {
+		background: color-mix(in srgb, var(--foreground) 6%, var(--surface));
+	}
+	.app-shell:not(:has(.print-surface))
+		main
+		:is(
+			.documents-project-card,
+			a.project-kpi,
+			a.executive-kpi,
+			a.hm-stat,
+			button.hm-stat
+		):active {
+		border-color: var(--brand-red) !important;
+		background: color-mix(
+			in srgb,
+			var(--brand-red) 10%,
+			var(--surface)
+		) !important;
+		box-shadow: none !important;
+	}
+
+	/* Botones y enlaces con forma de botón: cualquier color de fondo reacciona. */
+	.app-shell
+	.focus-ring:is(a, button, summary):not(
+		.app-shell-nav-link,
+		.hm-stat,
+		.project-kpi,
+		.executive-kpi,
+		.documents-project-card,
+		:disabled
+	) {
+		transition:
+			filter 120ms ease,
+			transform 120ms ease,
+			box-shadow 120ms ease;
+	}
+	.app-shell
+		.focus-ring:is(a, button, summary):not(
+			.app-shell-nav-link,
+			.hm-stat,
+			.project-kpi,
+			.executive-kpi,
+			.documents-project-card,
+			:disabled
+		):hover {
+		filter: brightness(0.93);
+	}
+	.app-shell
+		.focus-ring:is(a, button, summary):not(
+			.app-shell-nav-link,
+			.hm-stat,
+			.project-kpi,
+			.executive-kpi,
+			.documents-project-card,
+			:disabled
+		):active {
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-red) 28%, transparent) !important;
+		filter: brightness(0.84);
+		transform: scale(0.985);
+	}
+	:root[data-theme="dark"]
+		.app-shell
+		.focus-ring:is(a, button, summary):not(
+			.app-shell-nav-link,
+			.hm-stat,
+			.project-kpi,
+			.executive-kpi,
+			.documents-project-card,
+			:disabled
+		):hover {
+		filter: brightness(1.18);
+	}
+	:root[data-theme="dark"]
+		.app-shell
+		.focus-ring:is(a, button, summary):not(
+			.app-shell-nav-link,
+			.hm-stat,
+			.project-kpi,
+			.executive-kpi,
+			.documents-project-card,
+			:disabled
+		):active {
+		filter: brightness(1.32);
+	}
+
+	/* Menú lateral. */
+	.app-shell .app-shell-nav-link--inactive:hover {
+		background: rgba(255, 255, 255, 0.14) !important;
+	}
+	.app-shell .app-shell-nav-link:active {
+		background: color-mix(
+			in srgb,
+			var(--brand-red) 45%,
+			transparent
+		) !important;
+	}
+}
+
+/* --- Carga: bloques que se levantan --------------------------------------- */
+.hm-build-loader {
+	display: inline-grid;
+	width: 3.5rem;
+	height: 2.6rem;
+	flex: 0 0 auto;
+	grid-template-columns: repeat(6, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	gap: 3px;
+}
+.hm-build-loader i {
+	grid-column: span 3;
+	border-radius: 2px;
+	background: var(--foreground);
+	animation: hm-brick 1.9s cubic-bezier(0.16, 1, 0.3, 1) infinite both;
+}
+/* Se levanta de abajo hacia arriba, con hiladas trabadas como un muro. */
+.hm-build-loader i[data-brick="a"] {
+	grid-area: 3 / 1 / 4 / 4;
+	animation-delay: 0ms;
+}
+.hm-build-loader i[data-brick="b"] {
+	grid-area: 3 / 4 / 4 / 7;
+	animation-delay: 150ms;
+}
+.hm-build-loader i[data-brick="c"] {
+	grid-area: 2 / 1 / 3 / 3;
+	animation-delay: 300ms;
+}
+.hm-build-loader i[data-brick="d"] {
+	grid-area: 2 / 3 / 3 / 7;
+	animation-delay: 450ms;
+}
+.hm-build-loader i[data-brick="e"] {
+	grid-area: 1 / 1 / 2 / 5;
+	animation-delay: 600ms;
+}
+.hm-build-loader i[data-brick="f"] {
+	grid-area: 1 / 5 / 2 / 7;
+	background: var(--brand-red);
+	animation-delay: 750ms;
+}
+.hm-build-loader--small {
+	width: 1.5rem;
+	height: 1.1rem;
+	gap: 1.5px;
+}
+@keyframes hm-brick {
+	0% {
+		opacity: 0;
+		transform: translateY(-70%);
+	}
+	22%,
+	78% {
+		opacity: 1;
+		transform: none;
+	}
+	100% {
+		opacity: 0;
+		transform: none;
+	}
+}
+
+/* Hoja de reporte que se escribe línea por línea. */
+.hm-doc-loader {
+	display: grid;
+	width: 3.6rem;
+	height: 4.6rem;
+	align-content: start;
+	gap: 0.45rem;
+	border: 1.5px solid var(--foreground);
+	border-top: 4px solid var(--brand-red);
+	border-radius: 3px;
+	background: var(--surface);
+	padding: 0.6rem 0.5rem;
+}
+.hm-doc-loader i {
+	display: block;
+	height: 3px;
+	border-radius: 2px;
+	background: var(--foreground);
+	transform-origin: left;
+	animation: hm-doc-line 2s ease-in-out infinite both;
+}
+.hm-doc-loader i:nth-child(2) {
+	width: 80%;
+	animation-delay: 220ms;
+}
+.hm-doc-loader i:nth-child(3) {
+	animation-delay: 440ms;
+}
+.hm-doc-loader i:nth-child(4) {
+	width: 55%;
+	animation-delay: 660ms;
+}
+@keyframes hm-doc-line {
+	0% {
+		opacity: 0.25;
+		transform: scaleX(0);
+	}
+	35%,
+	85% {
+		opacity: 1;
+		transform: scaleX(1);
+	}
+	100% {
+		opacity: 0.25;
+		transform: scaleX(1);
+	}
+}
+
+.hm-page-loading {
+	display: grid;
+	min-height: 60vh;
+	align-content: center;
+	justify-items: center;
+	gap: 0.3rem;
+	color: var(--muted);
+	font-size: 0.8125rem;
+	text-align: center;
+	/* Una página que responde al instante no debe parpadear con el aviso. */
+	animation: hm-loading-in 240ms ease 160ms both;
+}
+.hm-page-loading > p {
+	margin-top: 1rem;
+	color: var(--foreground);
+	font-size: 1rem;
+	font-weight: 600;
+}
+@keyframes hm-loading-in {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* Barra superior: responde en cuanto se presiona algo. */
+.hm-nav-bar {
+	position: fixed;
+	z-index: 200;
+	inset: 0 0 auto;
+	height: 3px;
+	overflow: hidden;
+	pointer-events: none;
+}
+.hm-nav-bar span {
+	display: block;
+	width: 100%;
+	height: 100%;
+	transform-origin: left;
+	background: var(--brand-red);
+	animation: hm-nav-advance 9s cubic-bezier(0.08, 0.7, 0.2, 1) both;
+}
+.hm-nav-bar[data-phase="finishing"] span {
+	animation: hm-nav-finish 280ms ease both;
+}
+@keyframes hm-nav-advance {
+	from {
+		transform: scaleX(0.04);
+	}
+	to {
+		transform: scaleX(0.92);
+	}
+}
+@keyframes hm-nav-finish {
+	0% {
+		opacity: 1;
+		transform: scaleX(0.92);
+	}
+	60% {
+		opacity: 1;
+		transform: scaleX(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scaleX(1);
+	}
+}
+
+/* Aviso flotante: solo aparece si la espera ya se nota. */
+.hm-nav-pill {
+	position: fixed;
+	z-index: 200;
+	bottom: 1.25rem;
+	left: 50%;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.65rem;
+	border-radius: 999px;
+	background: #1f2a2c;
+	padding: 0.55rem 1rem;
+	color: #fff;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	box-shadow: 0 10px 28px rgba(15, 22, 24, 0.28);
+	pointer-events: none;
+	transform: translateX(-50%);
+	animation: hm-pill-in 220ms ease 320ms both;
+}
+.hm-nav-pill .hm-build-loader i {
+	background: #fff;
+}
+.hm-nav-pill .hm-build-loader i[data-brick="f"] {
+	background: #ff6b78;
+}
+@keyframes hm-pill-in {
+	from {
+		opacity: 0;
+		transform: translate(-50%, 8px);
+	}
+	to {
+		opacity: 1;
+		transform: translate(-50%, 0);
+	}
+}
+
+@media print {
+	.hm-nav-bar,
+	.hm-nav-pill,
+	.hm-page-loading {
+		display: none;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.hm-build-loader i,
+	.hm-doc-loader i {
+		animation: none;
+	}
+	.hm-nav-bar span {
+		animation: none;
+		transform: scaleX(0.6);
+	}
+	.hm-nav-pill,
+	.hm-page-loading {
+		animation: none;
+	}
+	.app-shell .focus-ring:active {
+		transform: none !important;
+	}
+}
+
+.app-shell:not(:has(.print-surface)) main :is(.font-extrabold, .font-black) {
+	font-weight: 700;
+}
+
+/* El buscador ya tiene su propio fondo: el campo no debe verse como otra caja. */
+.app-shell :is(.documents-search, .reports-search) input {
+	background: transparent;
+}
+
+/* ==========================================================================
+   Franja de indicadores común y encabezados sin banda oscura.
+   ========================================================================== */
+.hm-stat {
+	padding: 0.8rem 1rem 0.85rem;
+}
+.hm-stat__value {
+	overflow-wrap: anywhere;
+	font-size: 1.4rem;
+}
+.hm-stat__detail {
+	white-space: normal;
+}
+@media (min-width: 901px) {
+	.hm-stats {
+		grid-template-columns: repeat(var(--hm-stat-count, 4), minmax(0, 1fr));
+	}
+}
+/* Cinco o seis montos completos no caben en una fila angosta. */
+@media (min-width: 901px) and (max-width: 1279px) {
+	.hm-stats[data-many] {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+	.hm-stats[data-many] .hm-stat:nth-child(3n + 1) {
+		border-left: 0;
+	}
+	.hm-stats[data-many] .hm-stat:nth-child(n + 4) {
+		border-top: 1px solid var(--border);
+	}
+}
+@media (max-width: 900px) {
+	.hm-stat:nth-child(odd) {
+		border-left: 0;
+	}
+}
+.hm-stats--compact .hm-stat {
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: center;
+	padding: 0.6rem 1rem;
+}
+.hm-stats--compact .hm-stat__value {
+	font-size: 1.15rem;
+}
+.hm-stats--compact .hm-stat__detail {
+	display: none;
+}
+.hm-text-good {
+	color: var(--success);
+}
+.hm-text-bad {
+	color: var(--danger);
+}
+
+.hm-page-header__actions {
+	align-items: center;
+}
+.hm-status {
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	padding: 0.4rem 0.8rem;
+	color: var(--muted);
+	font-size: 0.75rem;
+	font-weight: 600;
+}
+.hm-status[data-tone="good"] {
+	border-color: color-mix(in srgb, var(--success) 45%, var(--border));
+	color: var(--success);
+}
+
+/* Selector de vistas sobre fondo claro (Inventario). */
+.hm-segmented {
+	display: flex;
+	max-width: 100%;
+	gap: 0.25rem;
+	overflow-x: auto;
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	background: var(--surface);
+	padding: 0.25rem;
+}
+.app-shell .hm-segmented .inventory-main-tab {
+	display: inline-flex;
+	min-height: 2.5rem;
+	flex: 0 0 auto;
+	align-items: center;
+	gap: 0.5rem;
+	border-radius: 9px;
+	background: transparent;
+	padding: 0 0.85rem;
+	color: var(--muted);
+	font-size: 0.875rem;
+	font-weight: 600;
+	white-space: nowrap;
+	box-shadow: none;
+}
+.app-shell .hm-segmented .inventory-main-tab:hover {
+	background: color-mix(in srgb, var(--foreground) 7%, transparent);
+	color: var(--foreground);
+}
+.app-shell .hm-segmented .inventory-main-tab[aria-current="page"] {
+	background: var(--foreground);
+	color: var(--surface);
+}
+
+/* Barra con el selector de proyecto y las acciones de registro (Finanzas). */
+.hm-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 0.75rem 1rem;
+	border: 1px solid var(--border);
+	border-radius: 14px;
+	background: var(--surface);
+	padding: 0.75rem 1rem;
+}
+.hm-toolbar__field {
+	flex: 1 1 20rem;
+	max-width: 36rem;
+}
+
+/* Documentos del proyecto: pestañas y buscador en una sola fila. */
+.documents-project-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.6rem 0.75rem;
+	padding: 0.6rem 0.75rem;
+}
+.documents-project-toolbar__tools {
+	display: flex;
+	min-width: 0;
+	flex: 1 1 14rem;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.5rem 0.75rem;
+}
+.documents-project-toolbar__tools .documents-search {
+	min-width: 12rem;
+	flex: 1 1 12rem;
+	max-width: 24rem;
+}
+
+/* Filtros del Dashboard, sobre superficie clara. */
+.app-shell .dashboard-command-hero {
+	border: 1px solid var(--border) !important;
+	border-radius: 14px;
+	background: var(--surface) !important;
+	box-shadow: none !important;
+	padding: 0.75rem 1rem;
+}
+.app-shell .dashboard-command-hero::before,
+.app-shell .dashboard-command-hero::after {
+	display: none;
+}
+.app-shell
+	:is(
+		.dashboard-quick-filters,
+		.dashboard-quick-select,
+		.dashboard-quick-search,
+		.dashboard-command-filter-button
+	) {
+	box-shadow: none !important;
+	backdrop-filter: none !important;
+	-webkit-backdrop-filter: none !important;
+}
+.app-shell .dashboard-quick-filters {
+	border-color: transparent !important;
+	background: transparent !important;
+}
+.app-shell
+	:is(
+		.dashboard-quick-select,
+		.dashboard-quick-search,
+		.dashboard-command-filter-button
+	) {
+	border: 1px solid var(--border) !important;
+	background: var(--surface-raised) !important;
+	color: var(--foreground) !important;
+}
+.app-shell .dashboard-quick-search input {
+	background: transparent !important;
+	color: var(--foreground) !important;
+}
+
+/* --- Modo oscuro: todo se lee, nada encandila ------------------------------ */
+:root[data-theme="dark"] {
+	--muted: #b6c2bd;
+	--border: #36434a;
+}
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--muted: #b6c2bd;
+		--border: #36434a;
+	}
+}
+:root[data-theme="dark"]
+	.app-shell:not(:has(.print-surface))
+	main
+	:is(h1, h2, h3) {
+	color: var(--foreground);
+}
+/* El rojo de acento del modo oscuro es claro: como relleno no deja leer el blanco. */
+:root[data-theme="dark"] .app-shell .hm-action--primary,
+:root[data-theme="dark"]
+	.app-shell
+	[class*="bg-[var(--brand-red)]"].text-white {
+	background: #c8202f !important;
+	color: #fff !important;
+}
+
+/* Modo oscuro: colores fijos pensados para fondo claro que seguían sin adaptar. */
+/* Bordes y encabezados de tabla: separan sin encandilar. */
+:root[data-theme="dark"]
+	.app-shell:not(:has(.print-surface))
+	main
+	[class*="border-[#"] {
+	border-color: var(--border) !important;
+}
+:root[data-theme="dark"]
+	.app-shell:not(:has(.print-surface))
+	main
+	.rounded-xl.border.bg-white {
+	border-color: var(--border) !important;
+}
+:root[data-theme="dark"]
+	.app-shell:not(:has(.print-surface))
+	main
+	:is(thead, thead th) {
+	background: var(--surface-raised) !important;
+	color: var(--muted) !important;
+}
+/* Pestaña o filtro activo: claramente distinto de los demás. */
+:root[data-theme="dark"]
+	.app-shell
+	main
+	:is(.documents-tab--active, .reports-tab--active),
+:root[data-theme="dark"]
+	.app-shell
+	main
+	a.focus-ring.rounded-full.border.text-white {
+	border-color: transparent !important;
+	background: var(--foreground) !important;
+	color: var(--surface) !important;
+}
+:root[data-theme="dark"] .app-shell .fin-tabs a {
+	color: var(--muted) !important;
+}
+:root[data-theme="dark"] .app-shell .fin-tabs a[aria-current="page"] {
+	border-color: var(--border-strong) !important;
+	background: var(--surface-raised) !important;
+	color: var(--foreground) !important;
+}
+:root[data-theme="dark"] .app-shell .fin-tabs a > span,
+:root[data-theme="dark"] .app-shell .purchases-tabs button > span,
+:root[data-theme="dark"] .app-shell .purchases-order-filters button > span {
+	background: var(--surface-inset) !important;
+	color: var(--foreground) !important;
+}
+/* Requerimientos: avance de la solicitud y avisos. */
+:root[data-theme="dark"] .app-shell .requisition-progress__title,
+:root[data-theme="dark"] .app-shell .requisition-progress small,
+:root[data-theme="dark"] .app-shell .req-row small,
+:root[data-theme="dark"] .app-shell .req-row p {
+	color: var(--muted);
+}
+:root[data-theme="dark"] .app-shell .requisition-progress strong,
+:root[data-theme="dark"] .app-shell .req-row strong {
+	color: var(--foreground);
+}
+:root[data-theme="dark"]
+	.app-shell
+	.requisition-progress
+	li[data-state="completed"]
+	strong {
+	color: #4ad6a0;
+}
+:root[data-theme="dark"]
+	.app-shell
+	.requisition-progress
+	li[data-state="active"]
+	small {
+	color: #ff9aa1;
+}
+:root[data-theme="dark"] .app-shell .requisition-progress--rejected {
+	border-color: rgba(255, 90, 99, 0.45);
+	background: rgba(255, 90, 99, 0.12);
+}
+:root[data-theme="dark"] .app-shell .requisition-progress--rejected strong {
+	color: #ffb4b8;
+}
+:root[data-theme="dark"] .app-shell .requisitions-route-explainer,
+:root[data-theme="dark"]
+	.app-shell
+	:is(.website-preview-controls, .website-preview-note) {
+	border-color: var(--border);
+	background: var(--surface-raised);
+	color: var(--foreground);
+}
+:root[data-theme="dark"] .app-shell .requisitions-route-explainer small {
+	color: var(--muted);
+}
+:root[data-theme="dark"] .system-state-card {
+	background: var(--surface);
+}
+/* Compras: montos y datos secundarios del detalle de la orden. */
+:root[data-theme="dark"] .app-shell .purchases-order-detail__received {
+	color: #4ad6a0;
+}
+:root[data-theme="dark"] .app-shell .purchases-order-total span,
+:root[data-theme="dark"]
+	.app-shell
+	:is(.purchases-order-row, .purchases-order-detail)
+	:is(small, span:not([class])) {
+	color: var(--muted);
+}
+:root[data-theme="dark"] .app-shell .purchases-header__count {
+	background: rgba(0, 0, 0, 0.3);
+}
+/* Rojo como relleno: el acento claro del modo oscuro no deja leer el blanco. */
+:root[data-theme="dark"] .app-shell [class*="bg-[var(--primary)]"].text-white {
+	background: #c8202f !important;
+	color: #fff !important;
+}
+/* Barra de acciones de las vistas de impresión. */
+:root[data-theme="dark"] .app-shell .no-print a.bg-white {
+	border-color: var(--border) !important;
+	background: var(--surface) !important;
+	color: var(--foreground) !important;
+}
+/* Tailwind usa el color del texto para los bordes sin color propio: en oscuro son casi blancos. */
+:root[data-theme="dark"]
+	.app-shell:not(:has(.print-surface))
+	main
+	:is(
+		.border,
+		.border-t,
+		.border-b,
+		.border-l,
+		.border-r,
+		.border-y,
+		.border-x
+	):not([class*="border-["]) {
+	border-color: var(--border);
+}
+:root[data-theme="dark"]
+	.app-shell
+	:is(
+		.requisition-progress,
+		.website-editor-canvas__header,
+		.website-editor-footer,
+		.documents-upload-footer,
+		.requisitions-modal__footer
+	) {
+	border-color: var(--border) !important;
+}
+:root[data-theme="dark"] .app-shell .purchases-order-total strong,
+:root[data-theme="dark"] .app-shell .requisitions-destination-option strong {
+	color: var(--foreground) !important;
+}
+:root[data-theme="dark"] .app-shell .requisitions-destination-option small,
+:root[data-theme="dark"]
+	.app-shell
+	[class*="requisitions-"]
+	:is(small, p):not([class]) {
+	color: var(--muted);
+}
+:root[data-theme="dark"] .system-state-card {
+	background: var(--surface) !important;
+}
+:root[data-theme="dark"] .app-shell .purchases-order-detail__totals strong,
+:root[data-theme="dark"] .app-shell .requisitions-route-explainer strong {
+	color: var(--foreground) !important;
+}
+:root[data-theme="dark"] .app-shell .requisitions-route-explainer small {
+	color: var(--muted) !important;
+}
+/* El menú lateral es oscuro también en el tema claro. */
+.app-shell .app-shell-brandcopy p:last-child {
+	color: rgba(255, 255, 255, 0.72);
+}
+.app-shell .budget-not-applicable {
+	color: var(--muted);
+}
+
+/* Filtros del Dashboard: una sola fila, sin aire de sobra. */
+.app-shell .dashboard-command-hero {
+	padding: 0.6rem 0.75rem;
+}
+.app-shell
+	:is(
+		.dashboard-command-hero__layout,
+		.dashboard-command-controls,
+		.dashboard-quick-filters
+	) {
+	min-height: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+.app-shell .dashboard-reset-button {
+	border: 1px solid var(--border) !important;
+	background: var(--surface-raised) !important;
+	color: var(--danger) !important;
+	box-shadow: none !important;
 }

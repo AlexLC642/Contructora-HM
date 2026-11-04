@@ -1,43 +1,5 @@
 import type { LucideIcon } from "lucide-react";
 
-type MetricTone = "neutral" | "red" | "amber" | "green";
-
-const metricToneClass: Record<MetricTone, string> = {
-	neutral: "reports-metric--neutral",
-	red: "reports-metric--red",
-	amber: "reports-metric--amber",
-	green: "reports-metric--green",
-};
-
-export function ReportMetric({
-	icon: Icon,
-	label,
-	value,
-	detail,
-	tone = "neutral",
-}: {
-	icon: LucideIcon;
-	label: string;
-	value: number | string;
-	detail: string;
-	tone?: MetricTone;
-}) {
-	return (
-		<article className={`reports-metric ${metricToneClass[tone]}`}>
-			<div>
-				<p className="reports-eyebrow">{label}</p>
-				<p className="mt-2 text-2xl font-extrabold tracking-[-0.04em] text-[#111819]">
-					{value}
-				</p>
-				<p className="mt-1 text-xs font-medium text-[#62706a]">{detail}</p>
-			</div>
-			<span className="reports-metric__icon">
-				<Icon aria-hidden="true" size={19} strokeWidth={1.8} />
-			</span>
-		</article>
-	);
-}
-
 export function ReportEmpty({
 	icon: Icon,
 	title,

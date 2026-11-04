@@ -1,17 +1,12 @@
 import {
 	AlertTriangle,
 	Archive,
-	Banknote,
-	CalendarDays,
 	CheckCircle2,
 	ClipboardList,
-	Gauge,
 	PackageSearch,
 	Plus,
 	RotateCcw,
 	Share2,
-	TrendingUp,
-	WalletCards,
 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requirePermission } from "@/modules/auth/application/authorization";
@@ -30,13 +25,9 @@ import {
 	type ProjectTimelinePoint,
 } from "@/modules/projects/ui/project-workspace/project-charts";
 import { WorkspaceReveal } from "@/modules/projects/ui/project-workspace/project-motion";
-import {
-	moneyCompact,
-	moneyFull,
-	percent,
-	progressGap,
-} from "@/shared/ui/charts/format";
+import { moneyFull, percent, progressGap } from "@/shared/ui/charts/format";
 import { MediaViewerGrid } from "@/shared/ui/media-viewer";
+import { StatStrip } from "@/shared/ui/stat-strip";
 
 const dateFormatter = new Intl.DateTimeFormat("es-GT", { dateStyle: "medium" });
 const shortDateFormatter = new Intl.DateTimeFormat("es-GT", {
@@ -285,43 +276,35 @@ export default async function ProjectDetailPage({
 	const kpis = [
 		{
 			title: "Presupuesto vigente",
-			value: moneyCompact(budgetTotal),
+			value: moneyFull(budgetTotal),
 			detail: dashboard.budget.version
 				? `Version v${dashboard.budget.version}`
 				: "Sin presupuesto aprobado",
 			href: `/projects/${id}/budget`,
-			icon: WalletCards,
-			tone: "var(--steel)",
 		},
 		{
 			title: "Costo ejecutado",
-			value: moneyCompact(spent),
+			value: moneyFull(spent),
 			detail:
 				financialProgress === null
 					? "Sin presupuesto base"
 					: `${percent(financialProgress)} del presupuesto`,
 			href: `/projects/${id}/finance`,
-			icon: Banknote,
-			tone: "var(--safety)",
 		},
 		{
 			title: "Abonado clientes",
-			value: moneyCompact(paid),
+			value: moneyFull(paid),
 			detail:
 				coverage === null
 					? "Sin gasto registrado"
 					: `${percent(coverage)} sobre ejecutado`,
 			href: `/projects/${id}/finance`,
-			icon: WalletCards,
-			tone: "#7C3AED",
 		},
 		{
 			title: "Saldo operativo",
 			value: moneyFull(dashboard.budget.balance),
 			detail: "Abonado menos ejecutado",
 			href: `/projects/${id}/finance`,
-			icon: TrendingUp,
-			tone: "var(--success)",
 		},
 		{
 			title: "Avance real",
@@ -330,8 +313,6 @@ export default async function ProjectDetailPage({
 				? `Plan para hoy: ${percent(dashboard.progress.planned)} · ${progressGap(dashboard.progress.gap)}`
 				: "Sin planificación",
 			href: `/projects/${id}/progress`,
-			icon: Gauge,
-			tone: "var(--brand-red)",
 		},
 		{
 			title: "Tiempo",
@@ -340,8 +321,6 @@ export default async function ProjectDetailPage({
 				? `Fin previsto ${formatDate(project.expectedEndDate)}`
 				: "Define fecha prevista",
 			href: `/projects/${id}/schedule`,
-			icon: CalendarDays,
-			tone: "var(--info)",
 		},
 	];
 	const operationalAlerts = [
@@ -516,34 +495,16 @@ export default async function ProjectDetailPage({
 				))}
 			</nav>
 
-			<section className="kpi-grid grid gap-3 md:grid-cols-2 xl:grid-cols-6">
-				{kpis.map((kpi) => {
-					const Icon = kpi.icon;
-					return (
-						<a
-							className="project-kpi focus-ring"
-							href={kpi.href}
-							key={kpi.title}
-						>
-							<span
-								className="project-kpi-icon"
-								style={{ backgroundColor: kpi.tone }}
-							>
-								<Icon aria-hidden="true" size={18} />
-							</span>
-							<span className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
-								{kpi.title}
-							</span>
-							<strong className="mt-3 block text-2xl tabular-nums">
-								{kpi.value}
-							</strong>
-							<span className="mt-2 block text-sm text-[var(--muted)]">
-								{kpi.detail}
-							</span>
-						</a>
-					);
-				})}
-			</section>
+			<StatStrip
+				items={kpis.map((kpi) => ({
+					key: kpi.title,
+					label: kpi.title,
+					value: kpi.value,
+					detail: kpi.detail,
+					href: kpi.href,
+				}))}
+				label="Indicadores del proyecto"
+			/>
 
 			<section className="grid gap-4 xl:grid-cols-[1fr_420px]">
 				<article className="project-panel">
@@ -603,7 +564,7 @@ export default async function ProjectDetailPage({
 							["Bloqueadas", blocked, "var(--danger)"],
 						].map(([label, value, color]) => (
 							<div
-								className="flex items-center justify-between rounded-md border border-[var(--border)] bg-white px-3 py-2 text-sm"
+								className="flex items-center justify-between border-b border-[var(--border)] py-2 text-sm last:border-b-0"
 								key={String(label)}
 							>
 								<span className="flex items-center gap-2 text-[var(--muted)]">
@@ -633,14 +594,14 @@ export default async function ProjectDetailPage({
 					<div className="mt-2 grid gap-2">
 						{sectionProgress.slice(0, 4).map((item) => (
 							<div
-								className="flex items-center justify-between gap-3 rounded-md bg-[#fbfaf6] px-3 py-2 text-sm"
+								className="flex items-center justify-between gap-3 border-b border-[var(--border)] py-2 text-sm last:border-b-0"
 								key={item.code}
 							>
 								<span className="truncate">
 									<strong>{item.code}</strong> - {item.name}
 								</span>
 								<span className="font-semibold tabular-nums">
-									{moneyCompact(item.budget)}
+									{moneyFull(item.budget)}
 								</span>
 							</div>
 						))}
@@ -658,12 +619,12 @@ export default async function ProjectDetailPage({
 					<div className="space-y-3">
 						{[
 							["Presupuesto", budgetTotal, 100, "var(--steel)"],
-							["Ejecutado", spent, financialProgress ?? 0, "var(--safety)"],
+							["Ejecutado", spent, financialProgress ?? 0, "var(--steel)"],
 							[
 								"Abonado",
 								paid,
 								budgetTotal > 0 ? (paid / budgetTotal) * 100 : 0,
-								"#7C3AED",
+								"var(--steel)",
 							],
 							[
 								"Saldo",
@@ -689,7 +650,7 @@ export default async function ProjectDetailPage({
 									/>
 								</span>
 								<strong className="text-right tabular-nums">
-									{moneyCompact(Number(value))}
+									{moneyFull(Number(value))}
 								</strong>
 							</div>
 						))}
@@ -858,7 +819,7 @@ export default async function ProjectDetailPage({
 							const AlertIcon = alert.icon;
 							return (
 								<a
-									className="focus-ring flex items-center justify-between gap-3 rounded-md border border-[var(--border)] bg-white px-3 py-3 text-sm hover:bg-[#fbfaf6]"
+									className="focus-ring flex items-center justify-between gap-3 border-b border-[var(--border)] py-2.5 text-sm last:border-b-0 hover:text-[var(--foreground)]"
 									href={alert.href}
 									key={alert.label}
 								>

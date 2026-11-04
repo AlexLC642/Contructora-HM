@@ -1,16 +1,18 @@
 "use client";
 
-import { useMemo } from "react";
 import type { EChartsCoreOption } from "echarts/core";
 import * as echarts from "echarts/core";
 import { motion } from "motion/react";
-import { EChart } from "@/shared/ui/charts/e-chart";
+import { useMemo } from "react";
 import {
 	baseGrid,
+	chartTextTokens,
 	chartTooltip,
 	hmChartColors,
 } from "@/shared/ui/charts/chart-theme";
+import { EChart } from "@/shared/ui/charts/e-chart";
 import { progressGap } from "@/shared/ui/charts/format";
+import { useIsDarkMode } from "@/shared/ui/charts/use-chart-theme";
 
 type ActivityRow = {
 	name: string;
@@ -58,6 +60,7 @@ export function ProgressSummaryCharts({
 	blocked,
 	activities,
 }: ProgressSummaryChartsProps) {
+	const theme = chartTextTokens(useIsDarkMode());
 	const real = clamp(currentProgress);
 	const previous = clamp(previousProgress);
 	const planned = clamp(plannedProgress);
@@ -95,7 +98,7 @@ export function ProgressSummaryCharts({
 				icon: "roundRect",
 				itemHeight: 8,
 				itemWidth: 22,
-				textStyle: { color: hmChartColors.muted, fontSize: 12 },
+				textStyle: { color: theme.muted, fontSize: 12 },
 			},
 			tooltip: {
 				...chartTooltip(),
@@ -125,8 +128,8 @@ export function ProgressSummaryCharts({
 				boundaryGap: false,
 				data: ["Inicio", "Anterior", "Hoy", "Prox."],
 				axisTick: { show: false },
-				axisLine: { lineStyle: { color: hmChartColors.grid } },
-				axisLabel: { color: hmChartColors.muted, fontSize: 11 },
+				axisLine: { lineStyle: { color: theme.grid } },
+				axisLabel: { color: theme.muted, fontSize: 11 },
 			},
 			yAxis: {
 				type: "value",
@@ -135,10 +138,10 @@ export function ProgressSummaryCharts({
 				interval: 25,
 				axisLabel: {
 					formatter: "{value}%",
-					color: hmChartColors.muted,
+					color: theme.muted,
 					fontSize: 11,
 				},
-				splitLine: { lineStyle: { color: hmChartColors.grid } },
+				splitLine: { lineStyle: { color: theme.grid } },
 			},
 			series: [
 				{
@@ -176,7 +179,7 @@ export function ProgressSummaryCharts({
 				},
 			],
 		};
-	}, [planned, previous, real]);
+	}, [planned, previous, real, theme]);
 
 	const donutOption = useMemo<EChartsCoreOption>(
 		() => ({
@@ -221,10 +224,10 @@ export function ProgressSummaryCharts({
 				max: 100,
 				axisLabel: {
 					formatter: "{value}%",
-					color: hmChartColors.muted,
+					color: theme.muted,
 					fontSize: 11,
 				},
-				splitLine: { lineStyle: { color: hmChartColors.grid } },
+				splitLine: { lineStyle: { color: theme.grid } },
 			},
 			yAxis: {
 				type: "category",
@@ -232,7 +235,7 @@ export function ProgressSummaryCharts({
 				data: rows.map((row) => shortLabel(row.name)),
 				axisTick: { show: false },
 				axisLine: { show: false },
-				axisLabel: { color: hmChartColors.ink, fontSize: 11, fontWeight: 600 },
+				axisLabel: { color: theme.ink, fontSize: 11, fontWeight: 600 },
 			},
 			series: [
 				{
@@ -250,14 +253,14 @@ export function ProgressSummaryCharts({
 						show: true,
 						position: "right",
 						formatter: "{c}%",
-						color: hmChartColors.ink,
+						color: theme.ink,
 						fontSize: 11,
 						fontWeight: 700,
 					},
 				},
 			],
 		};
-	}, [activities]);
+	}, [activities, theme]);
 
 	return (
 		<div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,1.25fr)_minmax(300px,0.75fr)]">

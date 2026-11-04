@@ -38,17 +38,12 @@ import {
 	ActionMenuSeparator,
 } from "@/shared/ui/action-menu";
 import { AutoFilterForm } from "@/shared/ui/auto-filter-form";
+import { PageHeader } from "@/shared/ui/page-header";
 import { displayUserName } from "@/shared/utils/display-user-name";
 
 const currencyFormatter = new Intl.NumberFormat("es-GT", {
 	style: "currency",
 	currency: "GTQ",
-});
-const compactCurrencyFormatter = new Intl.NumberFormat("es-GT", {
-	style: "currency",
-	currency: "GTQ",
-	notation: "compact",
-	maximumFractionDigits: 1,
 });
 
 const inputClass =
@@ -76,44 +71,6 @@ function statusRisk(status: ProjectStatus, progress: number) {
 	return "Planificacion";
 }
 
-function Metric({
-	label,
-	value,
-	detail,
-	tone,
-}: {
-	label: string;
-	value: string;
-	detail: string;
-	tone: "red" | "green" | "amber" | "steel";
-}) {
-	const toneClass = {
-		red: "bg-[var(--brand-red)]",
-		green: "bg-[var(--success)]",
-		amber: "bg-[var(--safety)]",
-		steel: "bg-[var(--steel)]",
-	}[tone];
-
-	return (
-		<div className="rounded-xl border border-[#cfd5ce] bg-white/80 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.65),0_2px_6px_rgba(22,27,29,0.06),0_16px_34px_rgba(22,27,29,0.09)] backdrop-blur-xl backdrop-saturate-150 transition duration-200 hover:-translate-y-0.5 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_3px_8px_rgba(22,27,29,0.08),0_22px_44px_rgba(22,27,29,0.13)] motion-reduce:transform-none motion-reduce:transition-none">
-			<div className="flex items-start justify-between gap-3">
-				<div>
-					<p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#58635f]">
-						{label}
-					</p>
-					<p className="mt-2 text-3xl font-semibold leading-none tabular-nums text-[#101416]">
-						{value}
-					</p>
-					<p className="mt-2 text-sm text-[var(--muted)]">{detail}</p>
-				</div>
-				<span
-					className={`mt-1 h-12 w-2 rounded-full ${toneClass} shadow-[0_2px_6px_rgba(0,0,0,0.18)]`}
-				/>
-			</div>
-		</div>
-	);
-}
-
 type ProjectsPageProps = {
 	searchParams: Promise<{
 		search?: string;
@@ -135,29 +92,6 @@ export default async function ProjectsPage({
 			: "OPERATIVE";
 	const projects = await listProjects({ search: params.search, status }, user);
 	const canCreate = user.permissions.includes("proyectos.crear");
-	const activeProjects = projects.filter(
-		(project) => project.status === "ACTIVE",
-	).length;
-	const planningProjects = projects.filter(
-		(project) => project.status === "PLANNING" || project.status === "DRAFT",
-	).length;
-	const totalBudget = projects.reduce(
-		(sum, project) => sum + project.baseBudget.toNumber(),
-		0,
-	);
-	const averageProgress =
-		projects.length > 0
-			? projects.reduce(
-					(sum, project) => sum + project.progressPercentage.toNumber(),
-					0,
-				) / projects.length
-			: 0;
-	const completedProjects = projects.filter(
-		(project) => project.status === "COMPLETED",
-	).length;
-	const archivedProjects = projects.filter(
-		(project) => project.status === "ARCHIVED",
-	).length;
 
 	const canEditProjects = user.permissions.includes("proyectos.editar");
 	const canSeeFinances = user.permissions.includes("finanzas.ver");
@@ -256,54 +190,19 @@ export default async function ProjectsPage({
 
 	return (
 		<main className="projects-workspace mx-auto max-w-[1520px] space-y-5">
-			<section className="projects-hero relative overflow-hidden rounded-[22px] border border-[#1f2b2d] bg-[radial-gradient(circle_at_top_left,_rgba(74,88,92,0.34),transparent_38%),linear-gradient(135deg,#1a2124_0%,#171d1f_45%,#12181a_100%)] text-white shadow-[0_28px_64px_rgba(18,24,27,0.24),0_4px_10px_rgba(18,24,27,0.3),inset_0_1px_0_rgba(255,255,255,0.06)]">
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-y-0 right-0 w-[46%] opacity-40 [background-image:repeating-linear-gradient(132deg,transparent_0_38px,rgba(255,255,255,0.06)_38px_39px,transparent_39px_78px)] [mask-image:linear-gradient(90deg,transparent,#000_35%)]"
-				/>
-				<div className="relative flex flex-wrap items-center justify-between gap-4 p-5">
-					<div className="flex w-fit items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.13em] text-white/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
-						<FolderKanban aria-hidden="true" size={15} />
-						{canSeePortfolio ? "Cartera operativa" : "Proyectos asignados"}
-						<h1 className="sr-only">Proyectos</h1>
-					</div>
-					{canCreate ? (
-						<a
-							className="focus-ring inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[linear-gradient(180deg,#df3948_0%,#c92431_100%)] px-4 text-sm font-semibold text-white shadow-[0_16px_26px_rgba(200,32,47,0.28)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_28px_rgba(200,32,47,0.33)]"
-							href="/projects/new"
-						>
-							<Plus aria-hidden="true" size={18} /> Nuevo proyecto
-						</a>
-					) : null}
-				</div>
-			</section>
-
-			<section className="projects-kpis kpi-grid grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-				<Metric
-					detail={`${projects.length} visibles en esta vista`}
-					label="Activos"
-					tone="green"
-					value={String(activeProjects)}
-				/>
-				<Metric
-					detail={`${planningProjects} en preparacion`}
-					label="Planificacion"
-					tone="amber"
-					value={String(planningProjects)}
-				/>
-				<Metric
-					detail="Presupuesto base acumulado"
-					label="Presupuesto"
-					tone="steel"
-					value={compactCurrencyFormatter.format(totalBudget)}
-				/>
-				<Metric
-					detail={`${completedProjects} finalizados, ${archivedProjects} archivados`}
-					label="Avance cartera"
-					tone="red"
-					value={`${averageProgress.toFixed(1)}%`}
-				/>
-			</section>
+			<PageHeader
+				description="Sigue el presupuesto, el avance y el responsable de cada obra."
+				title={canSeePortfolio ? "Proyectos" : "Proyectos asignados"}
+			>
+				{canCreate ? (
+					<a
+						className="hm-action hm-action--primary focus-ring"
+						href="/projects/new"
+					>
+						<Plus aria-hidden="true" size={18} /> Nuevo proyecto
+					</a>
+				) : null}
+			</PageHeader>
 
 			<AutoFilterForm
 				action="/projects"
@@ -332,9 +231,6 @@ export default async function ProjectsPage({
 					))}
 				</select>
 			</AutoFilterForm>
-			<p className="-mt-2 px-1 text-xs font-medium text-[var(--muted)]">
-				Los resultados se actualizan al cambiar los filtros.
-			</p>
 
 			<section className={`${panelClass} projects-panel overflow-hidden`}>
 				<div className="projects-panel__header flex flex-wrap items-center justify-between gap-3 border-b border-[#dfe5df] bg-[#f8f7f4] px-5 py-4">

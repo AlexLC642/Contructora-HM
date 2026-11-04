@@ -8,7 +8,7 @@ import {
 } from "@tanstack/react-table/legacy";
 import { ArrowUpDown, ChevronRight } from "lucide-react";
 import { useMemo, useState } from "react";
-import { moneyCompact, percent, progressGap } from "@/shared/ui/charts/format";
+import { moneyFull, percent, progressGap } from "@/shared/ui/charts/format";
 import type { DashboardProjectRow } from "./types";
 
 function riskClass(risk: string) {
@@ -104,13 +104,6 @@ export function PortfolioTable({
 				),
 			},
 			{
-				accessorKey: "clientName",
-				header: "Cliente",
-				cell: ({ row }) => (
-					<span className="text-[var(--muted)]">{row.original.clientName}</span>
-				),
-			},
-			{
 				accessorKey: "realProgress",
 				header: "Avance",
 				cell: ({ row }) => progressBar(row.original.realProgress),
@@ -146,7 +139,7 @@ export function PortfolioTable({
 				header: "Presupuesto",
 				cell: ({ row }) => (
 					<span className="tabular-nums">
-						{moneyCompact(row.original.budgetTotal)}
+						{moneyFull(row.original.budgetTotal)}
 					</span>
 				),
 			},
@@ -154,9 +147,7 @@ export function PortfolioTable({
 				accessorKey: "spent",
 				header: "Ejecutado",
 				cell: ({ row }) => (
-					<span className="tabular-nums">
-						{moneyCompact(row.original.spent)}
-					</span>
+					<span className="tabular-nums">{moneyFull(row.original.spent)}</span>
 				),
 			},
 			{
@@ -170,7 +161,7 @@ export function PortfolioTable({
 								: "font-semibold tabular-nums text-[var(--success)]"
 						}
 					>
-						{moneyCompact(row.original.balance)}
+						{moneyFull(row.original.balance)}
 					</span>
 				),
 			},
@@ -204,15 +195,6 @@ export function PortfolioTable({
 				),
 			},
 			{
-				accessorKey: "status",
-				header: "Estado",
-				cell: ({ row }) => (
-					<span className="text-[var(--muted)]">
-						{row.original.status === "ACTIVE" ? "Activo" : row.original.status}
-					</span>
-				),
-			},
-			{
 				id: "action",
 				header: "",
 				cell: ({ row }) => (
@@ -238,7 +220,7 @@ export function PortfolioTable({
 
 	return (
 		<>
-			<div className="hidden overflow-x-auto md:block">
+			<div className="dashboard-table-scroll hidden overflow-x-auto md:block">
 				<table className="w-full min-w-[1120px] border-collapse text-sm">
 					<thead>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -312,7 +294,7 @@ export function PortfolioTable({
 				</table>
 			</div>
 
-			<div className="grid grid-cols-1 gap-3 md:hidden">
+			<div className="dashboard-scroll-list grid grid-cols-1 gap-3 md:hidden">
 				{rows.map((project) => {
 					const gap = project.realProgress - project.plannedProgress;
 					return (
@@ -345,7 +327,7 @@ export function PortfolioTable({
 								<div>
 									<dt>Presupuesto</dt>
 									<dd className="mt-1 font-bold tabular-nums text-[var(--foreground)]">
-										{moneyCompact(project.budgetTotal)}
+										{moneyFull(project.budgetTotal)}
 									</dd>
 								</div>
 								<div>
@@ -353,7 +335,7 @@ export function PortfolioTable({
 									<dd
 										className={`mt-1 font-bold tabular-nums ${project.balance < 0 ? "text-[var(--danger)]" : "text-[var(--foreground)]"}`}
 									>
-										{moneyCompact(project.balance)}
+										{moneyFull(project.balance)}
 									</dd>
 								</div>
 								<div>

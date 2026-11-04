@@ -14,8 +14,8 @@ import {
 } from "@/shared/ui/charts/chart-theme";
 import { EChart } from "@/shared/ui/charts/e-chart";
 import {
-	moneyCompact,
 	moneyFull,
+	moneyTick,
 	percent,
 	progressGap,
 	shortDate,
@@ -55,7 +55,7 @@ export function PortfolioSCurve({
 		return {
 			animationDuration: 720,
 			animationEasing: "cubicOut",
-			color: [hmChartColors.blue, hmChartColors.green, hmChartColors.violet],
+			color: [hmChartColors.blue, hmChartColors.green, hmChartColors.slate],
 			grid: { ...baseGrid, right: 24, left: 42 },
 			legend: {
 				top: 0,
@@ -205,7 +205,7 @@ export function PortfolioSCurve({
 					value={percent(planned)}
 				/>
 				<ChartMetric
-					color={hmChartColors.violet}
+					color={hmChartColors.slate}
 					label="Financiero"
 					value={financial === null ? "Sin datos" : percent(financial)}
 				/>
@@ -454,7 +454,7 @@ export function FinancialControlChart({
 			animationDuration: 650,
 			// The legend lives as HTML above the chart instead (see the
 			// custom row below) so it isn't declared twice.
-			grid: { ...baseGrid, top: 16, left: 96, right: 64 },
+			grid: { ...baseGrid, top: 16, left: 96, right: 112 },
 			tooltip: {
 				...chartTooltip(theme),
 				trigger: "axis",
@@ -473,8 +473,11 @@ export function FinancialControlChart({
 			},
 			xAxis: {
 				type: "value",
+				// Montos completos: menos marcas para que no se encimen.
+				splitNumber: 3,
 				axisLabel: {
-					formatter: (value: number) => moneyCompact(value),
+					hideOverlap: true,
+					formatter: (value: number) => moneyTick(value),
 					color: theme.muted,
 				},
 				splitLine: { lineStyle: { color: theme.grid } },
@@ -516,7 +519,7 @@ export function FinancialControlChart({
 						fontSize: 11,
 						fontWeight: 700,
 						formatter: (params: { dataIndex: number }) =>
-							moneyCompact(rows[params.dataIndex]?.budgetTotal ?? 0),
+							moneyFull(rows[params.dataIndex]?.budgetTotal ?? 0),
 					},
 				},
 				{
@@ -614,7 +617,7 @@ export function CashFlowChart({ metrics }: { metrics: DashboardMetricsView }) {
 			yAxis: {
 				type: "value",
 				axisLabel: {
-					formatter: (value: number) => moneyCompact(value),
+					formatter: (value: number) => moneyTick(value),
 					color: theme.muted,
 				},
 				splitLine: { lineStyle: { color: theme.grid } },

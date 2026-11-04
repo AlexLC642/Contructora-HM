@@ -2,12 +2,9 @@ import type { Prisma } from "@prisma/client";
 import {
 	ArrowRight,
 	CalendarDays,
-	CheckCircle2,
 	ClipboardList,
-	Clock3,
 	Download,
 	Eye,
-	FileBarChart2,
 	FileText,
 	FolderKanban,
 	Plus,
@@ -28,14 +25,12 @@ import {
 } from "@/modules/documents/application/queries";
 import { documentFileUrl } from "@/modules/documents/domain/catalog";
 import { DocumentPreviewModal } from "@/modules/documents/ui/document-preview-modal";
+import { ReportEmpty, ReportStatus } from "@/modules/reports/ui/report-ui";
 import { ReportUploadModal } from "@/modules/reports/ui/report-upload-modal";
-import {
-	ReportEmpty,
-	ReportMetric,
-	ReportStatus,
-} from "@/modules/reports/ui/report-ui";
 import { prisma } from "@/shared/lib/prisma";
 import { AutoFilterForm } from "@/shared/ui/auto-filter-form";
+import { PageHeader } from "@/shared/ui/page-header";
+import { StatStrip } from "@/shared/ui/stat-strip";
 
 const dateFormatter = new Intl.DateTimeFormat("es-GT", { dateStyle: "medium" });
 const reportStatusLabels: Record<string, string> = {
@@ -236,66 +231,58 @@ export default async function ReportsPage({
 
 	return (
 		<main className="mx-auto max-w-[1480px] space-y-5">
-			<section className="reports-hero">
-				<div className="relative z-10 flex flex-wrap items-center justify-between gap-6">
-					<div className="flex items-center gap-4">
-						<span className="reports-hero__icon">
-							<FileBarChart2 aria-hidden="true" size={23} />
-						</span>
-						<p className="text-xs font-bold uppercase tracking-[0.22em] text-[#ef9ba3]">
-							Control documental
-						</p>
-						<h1 className="sr-only">Informes de obra</h1>
-					</div>
-					<div className="flex flex-wrap gap-2">
-						<a
-							className="reports-secondary-action focus-ring"
-							href={reportsHref(params, { tab: "reportes", upload: "true" })}
-						>
-							<Upload aria-hidden="true" size={17} /> Subir informe
-						</a>
-						<a
-							className="reports-primary-action focus-ring"
-							href={reportsHref(params, { newReport: "true" })}
-						>
-							<Plus aria-hidden="true" size={18} /> Nuevo informe
-						</a>
-					</div>
-				</div>
-			</section>
-
-			<section
-				aria-label="Resumen de informes"
-				className="kpi-grid grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
+			<PageHeader
+				description="Los informes diarios de cada obra y los archivos cargados, listos para revisar o generar en PDF."
+				title="Informes de obra"
 			>
-				<ReportMetric
-					detail="Registros de avance"
-					icon={ClipboardList}
-					label="Informes diarios"
-					value={dailyReportsRaw.length}
-				/>
-				<ReportMetric
-					detail="Pendientes de cierre"
-					icon={Clock3}
-					label="Por revisar"
-					tone="amber"
-					value={pendingCount}
-				/>
-				<ReportMetric
-					detail="Listos para consulta"
-					icon={CheckCircle2}
-					label="Aprobados"
-					tone="green"
-					value={approvedCount}
-				/>
-				<ReportMetric
-					detail="Documentos externos"
-					icon={FileText}
-					label="Archivos cargados"
-					tone="red"
-					value={manualReportsRaw.length}
-				/>
-			</section>
+				<a
+					className="hm-action focus-ring"
+					href={reportsHref(params, { tab: "reportes", upload: "true" })}
+				>
+					<Upload aria-hidden="true" size={17} /> Subir informe
+				</a>
+				<a
+					className="hm-action hm-action--primary focus-ring"
+					href={reportsHref(params, { newReport: "true" })}
+				>
+					<Plus aria-hidden="true" size={18} /> Nuevo informe
+				</a>
+			</PageHeader>
+
+			<StatStrip
+				items={[
+					{
+						key: "daily",
+						label: "Informes diarios",
+						value: dailyReportsRaw.length,
+						detail: "Registros de avance",
+						active: activeTab === "avance-diario",
+						href: reportsHref(params, { tab: "avance-diario" }),
+					},
+					{
+						key: "pending",
+						label: "Por revisar",
+						value: pendingCount,
+						detail: "Pendientes de cierre",
+						attention: pendingCount > 0 ? "warning" : undefined,
+					},
+					{
+						key: "approved",
+						label: "Aprobados",
+						value: approvedCount,
+						detail: "Listos para consulta",
+					},
+					{
+						key: "files",
+						label: "Archivos cargados",
+						value: manualReportsRaw.length,
+						detail: "Documentos externos",
+						active: activeTab === "reportes",
+						href: reportsHref(params, { tab: "reportes" }),
+					},
+				]}
+				label="Resumen de informes"
+			/>
 
 			<section className="reports-panel overflow-hidden">
 				<div className="flex flex-col gap-4 border-b border-[#dce2dd] p-4 lg:flex-row lg:items-center lg:justify-between">
@@ -530,7 +517,6 @@ function DailyReportsTable({ reports }: { reports: DailyReportRow[] }) {
 									<p className="font-bold text-[#172021]">
 										{report.reportNumber}
 									</p>
-									<span className="reports-origin">Registro interno</span>
 								</td>
 								<td>
 									<p className="font-semibold text-[#172021]">

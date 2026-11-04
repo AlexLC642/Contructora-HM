@@ -17,12 +17,12 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 import {
-	moneyCompact,
 	moneyFull,
 	percent,
 	progressGap,
 	shortDate,
 } from "@/shared/ui/charts/format";
+import { PageHeader } from "@/shared/ui/page-header";
 import {
 	ActivityStatusChart,
 	AlertsStatRow,
@@ -50,8 +50,6 @@ type KpiCard =
 	| (KpiCardBase & {
 			variant: "trend";
 			data: number[];
-			delta: number | null;
-			deltaLabel: string;
 	  })
 	| (KpiCardBase & {
 			variant: "composition";
@@ -85,17 +83,6 @@ function cumulative(values: number[]) {
 		running += value;
 		return running;
 	});
-}
-
-// Month-over-month (or point-over-point) change, not cumulative growth -
-// a cumulative series almost always "improves", which hides the metric
-// actually going backwards recently.
-function seriesDelta(values: number[]) {
-	if (values.length < 2) return null;
-	const previous = values[values.length - 2];
-	const current = values[values.length - 1];
-	if (previous === 0) return current === 0 ? 0 : null;
-	return ((current - previous) / Math.abs(previous)) * 100;
 }
 
 function filteredTimeline(
@@ -439,7 +426,7 @@ export function DashboardWorkspace({
 		},
 		{
 			title: "Presupuesto vigente",
-			value: moneyCompact(budgetTotal),
+			value: moneyFull(budgetTotal),
 			detail: "Aprobado y vigente",
 			icon: WalletCards,
 			tone: "var(--brand-red)",
@@ -463,39 +450,33 @@ export function DashboardWorkspace({
 		},
 		{
 			title: "Costo ejecutado",
-			value: moneyCompact(spentTotal),
+			value: moneyFull(spentTotal),
 			detail: `${percent(execution)} del presupuesto`,
 			icon: Banknote,
 			tone: "var(--safety)",
 			href: "/finances",
 			variant: "trend",
 			data: spentCumulative,
-			delta: seriesDelta(monthlySpent),
-			deltaLabel: "vs mes anterior",
 		},
 		{
 			title: "Abonado clientes",
-			value: moneyCompact(paidTotal),
+			value: moneyFull(paidTotal),
 			detail: `${percent(coverage)} sobre ejecutado`,
 			icon: WalletCards,
-			tone: "#7C3AED",
+			tone: "var(--info)",
 			href: "/finances",
 			variant: "trend",
 			data: paidCumulative,
-			delta: seriesDelta(monthlyPaid),
-			deltaLabel: "vs mes anterior",
 		},
 		{
 			title: "Saldo disponible",
-			value: moneyCompact(balanceTotal),
+			value: moneyFull(balanceTotal),
 			detail: "Abonado - ejecutado",
 			icon: TrendingUp,
 			tone: balanceTotal < 0 ? "var(--danger)" : "var(--success)",
 			href: "/finances",
 			variant: "trend",
 			data: balanceCumulative,
-			delta: seriesDelta(balanceCumulative),
-			deltaLabel: "vs mes anterior",
 		},
 		{
 			title: "Avance global",
@@ -506,18 +487,16 @@ export function DashboardWorkspace({
 			href: "/projects",
 			variant: "trend",
 			data: progressTrend,
-			delta: seriesDelta(progressTrend),
-			deltaLabel: "vs corte anterior",
 		},
 	];
 
 	return (
 		<main className="executive-dashboard space-y-5">
+			<PageHeader
+				description="Estado general de las obras: avance, presupuesto y alertas."
+				title="Dashboard"
+			/>
 			<section className="dashboard-command-hero relative z-10 overflow-visible">
-				{/* The sidebar already highlights "Dashboard" as the active item,
-				    so this page doesn't repeat the module name visually - kept for
-				    screen readers, which need a page-identifying heading. */}
-				<h1 className="sr-only">Dashboard</h1>
 				<div className="dashboard-command-hero__layout">
 					<div className="dashboard-command-controls">
 						{/* Search and filters row */}
@@ -775,7 +754,7 @@ export function DashboardWorkspace({
 				))}
 			</section>
 
-			<section className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.6fr_0.72fr]">
+			<section className="dashboard-row-balance grid gap-4 md:grid-cols-2 xl:grid-cols-[1.6fr_0.72fr]">
 				<DashboardPanel
 					action={<a href="/projects">Proyectos</a>}
 					subtitle="Comparacion acumulada entre planificacion, avance fisico y ejecucion financiera."
@@ -802,7 +781,7 @@ export function DashboardWorkspace({
 				</DashboardPanel>
 			</section>
 
-			<section className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1fr_0.8fr]">
+			<section className="dashboard-row-balance grid gap-4 md:grid-cols-2 xl:grid-cols-[1fr_0.8fr]">
 				<DashboardPanel
 					subtitle="Muestra cuáles proyectos van al día, adelantados o atrasados según el plan de hoy."
 					title="Estado del avance"
@@ -842,7 +821,7 @@ export function DashboardWorkspace({
 				</DashboardPanel>
 			</section>
 
-			<section className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.05fr_0.95fr]">
+			<section className="dashboard-row-balance grid gap-4 md:grid-cols-2 xl:grid-cols-[1.05fr_0.95fr]">
 				<DashboardPanel
 					action={<a href="/finances">Ver finanzas</a>}
 					subtitle="Presupuesto, costo ejecutado y abonos por proyecto."
@@ -858,13 +837,16 @@ export function DashboardWorkspace({
 				</DashboardPanel>
 			</section>
 
-			<section className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1fr_0.85fr_0.85fr]">
+			<section
+				className="dashboard-row-fixed grid gap-4 md:grid-cols-2 xl:grid-cols-[1fr_0.85fr_0.85fr]"
+				style={{ "--dashboard-row-height": "40rem" } as React.CSSProperties}
+			>
 				<DashboardPanel
 					subtitle="Lineas base de inicio y finalizacion por proyecto."
 					title="Cronograma ejecutivo"
 				>
-					<div className="space-y-3">
-						{scopedMetrics.ganttRows.slice(0, 8).map((row) => (
+					<div className="dashboard-scroll-list space-y-3">
+						{scopedMetrics.ganttRows.map((row) => (
 							<GanttRow bounds={ganttBounds} key={row.id} row={row} />
 						))}
 						{scopedMetrics.ganttRows.length === 0 ? (
@@ -900,9 +882,9 @@ export function DashboardWorkspace({
 							},
 						]}
 					/>
-					<div className="mt-4 grid gap-2">
+					<div className="dashboard-scroll-list mt-4 grid gap-2">
 						{scopedMetrics.operationalAlerts.length > 0 ? (
-							scopedMetrics.operationalAlerts.slice(0, 6).map((alert) => (
+							scopedMetrics.operationalAlerts.map((alert) => (
 								<a
 									className="focus-ring rounded-xl bg-white px-3 py-3 shadow-[0_8px_20px_rgba(37,48,51,0.07)] transition hover:-translate-y-0.5 hover:bg-[#fff8f2] hover:shadow-[0_14px_30px_rgba(37,48,51,0.12)]"
 									href={alert.href}
@@ -940,16 +922,21 @@ export function DashboardWorkspace({
 					subtitle="Existencia vs. minimo por material."
 					title="Inventario sensible"
 				>
-					<StockBarChart rows={metrics.stockAlerts.slice(0, 5)} />
+					<div className="dashboard-panel-center">
+						<StockBarChart rows={metrics.stockAlerts.slice(0, 5)} />
+					</div>
 				</DashboardPanel>
 			</section>
 
-			<section className="grid gap-4 md:grid-cols-2 xl:grid-cols-[0.9fr_1.1fr]">
+			<section
+				className="dashboard-row-fixed grid gap-4 md:grid-cols-2 xl:grid-cols-[0.9fr_1.1fr]"
+				style={{ "--dashboard-row-height": "34rem" } as React.CSSProperties}
+			>
 				<DashboardPanel
 					subtitle="Obras que concentran riesgo o pendientes."
 					title="Seguimiento prioritario"
 				>
-					<div className="space-y-2">
+					<div className="dashboard-scroll-list space-y-2">
 						{priorityProjects.map((project) => (
 							<button
 								className="focus-ring w-full rounded-xl bg-white px-4 py-3 text-left shadow-[0_8px_20px_rgba(37,48,51,0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_34px_rgba(37,48,51,0.14)]"
@@ -985,7 +972,7 @@ export function DashboardWorkspace({
 					subtitle="Ultimos registros aprobados o enviados."
 					title="Actividad reciente"
 				>
-					<div className="grid grid-cols-1 gap-2">
+					<div className="dashboard-scroll-list grid grid-cols-1 gap-2">
 						{metrics.recentActivity.map((item) => (
 							<a
 								className="focus-ring flex items-start gap-3 rounded-xl bg-white px-3 py-3 shadow-[0_8px_20px_rgba(37,48,51,0.07)] transition hover:-translate-y-0.5 hover:bg-[#fff8f2] hover:shadow-[0_14px_30px_rgba(37,48,51,0.12)]"
@@ -1093,15 +1080,6 @@ function ExecutiveKpi({ delay, ...card }: KpiCard & { delay: number }) {
 					<p className="executive-kpi__title text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">
 						{title}
 					</p>
-					<p className="mt-4 truncate text-[clamp(1.55rem,2vw,2rem)] font-semibold tabular-nums">
-						{value}
-					</p>
-					{card.variant === "trend" ? (
-						<div className="mt-1.5">
-							<KpiDelta {...card} />
-						</div>
-					) : null}
-					<p className="mt-2 text-sm text-[var(--muted)]">{detail}</p>
 				</div>
 				<span
 					className="executive-kpi__icon rounded-xl p-3 text-white shadow-[0_10px_24px_rgba(37,48,51,0.18)]"
@@ -1110,6 +1088,11 @@ function ExecutiveKpi({ delay, ...card }: KpiCard & { delay: number }) {
 					<Icon aria-hidden={true} size={20} />
 				</span>
 			</div>
+			{/* Fuera de la fila del ícono: el monto completo usa todo el ancho. */}
+			<p className="mt-2 whitespace-nowrap text-[clamp(1.35rem,1.7vw,1.75rem)] font-semibold leading-tight tabular-nums">
+				<KpiValue value={value} />
+			</p>
+			<p className="mt-2 text-sm text-[var(--muted)]">{detail}</p>
 			{card.variant === "trend" ? (
 				<KpiSparkline data={card.data} tone={tone} />
 			) : (
@@ -1119,30 +1102,19 @@ function ExecutiveKpi({ delay, ...card }: KpiCard & { delay: number }) {
 	);
 }
 
-function KpiDelta({
-	delta,
-	deltaLabel,
-}: {
-	delta: number | null;
-	deltaLabel: string;
-}) {
-	if (delta === null || Number.isNaN(delta)) return null;
-	const isFlat = Math.abs(delta) < 0.05;
-	const isUp = delta > 0;
+// Montos completos (Q2,110,000.00) con los centavos atenuados para que la
+// cifra principal siga leyéndose de un vistazo.
+function KpiValue({ value }: { value: React.ReactNode }) {
+	if (typeof value !== "string") return <>{value}</>;
+	const money = /^(.*\d)([.,]\d{2})$/.exec(value);
+	if (!value.startsWith("Q") || !money) return <>{value}</>;
 	return (
-		<span
-			className={`inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-xs font-semibold ${
-				isFlat
-					? "bg-[color-mix(in_srgb,var(--muted)_16%,transparent)] text-[var(--muted)]"
-					: isUp
-						? "bg-[color-mix(in_srgb,var(--success)_18%,transparent)] text-[var(--success)]"
-						: "bg-[color-mix(in_srgb,var(--danger)_16%,transparent)] text-[var(--danger)]"
-			}`}
-			title={deltaLabel}
-		>
-			{isFlat ? "•" : isUp ? "▲" : "▼"}
-			{Math.abs(delta).toFixed(1)}%
-		</span>
+		<>
+			{money[1]}
+			<span className="text-[0.62em] font-medium text-[var(--muted)]">
+				{money[2]}
+			</span>
+		</>
 	);
 }
 
@@ -1490,10 +1462,10 @@ function ProjectDrawer({
 				<div className="mt-5 grid grid-cols-3 gap-3">
 					<DrawerMetric
 						label="Presupuesto"
-						value={moneyCompact(project.budgetTotal)}
+						value={moneyFull(project.budgetTotal)}
 					/>
-					<DrawerMetric label="Ejecutado" value={moneyCompact(project.spent)} />
-					<DrawerMetric label="Saldo" value={moneyCompact(project.balance)} />
+					<DrawerMetric label="Ejecutado" value={moneyFull(project.spent)} />
+					<DrawerMetric label="Saldo" value={moneyFull(project.balance)} />
 				</div>
 				<div className="mt-5 rounded-xl border border-[var(--border)] bg-[#fbfaf6] p-4">
 					<p className="text-sm font-semibold">Lectura operativa</p>

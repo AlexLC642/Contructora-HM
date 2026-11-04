@@ -1,8 +1,9 @@
-import { ArrowLeft, Banknote, ReceiptText, WalletCards } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { requirePermission } from "@/modules/auth/application/authorization";
 import { getProjectDashboard } from "@/modules/projects/application/dashboard";
-import { moneyCompact, moneyFull, percent } from "@/shared/ui/charts/format";
+import { moneyFull, percent } from "@/shared/ui/charts/format";
+import { StatStrip } from "@/shared/ui/stat-strip";
 
 function formatDate(value?: Date | null) {
 	return value
@@ -27,27 +28,19 @@ export default async function ProjectFinancePage({
 	const metricCards = [
 		{
 			label: "Presupuesto",
-			value: moneyCompact(budgetTotal),
-			icon: WalletCards,
-			tone: "var(--steel)",
+			value: moneyFull(budgetTotal),
 		},
 		{
 			label: "Ejecutado",
-			value: moneyCompact(spent),
-			icon: Banknote,
-			tone: "var(--brand-red)",
+			value: moneyFull(spent),
 		},
 		{
 			label: "Abonado",
-			value: moneyCompact(paid),
-			icon: ReceiptText,
-			tone: "var(--success)",
+			value: moneyFull(paid),
 		},
 		{
 			label: "Saldo",
 			value: moneyFull(dashboard.budget.balance),
-			icon: WalletCards,
-			tone: "var(--info)",
 		},
 	];
 
@@ -68,27 +61,14 @@ export default async function ProjectFinancePage({
 					Resumen
 				</a>
 			</div>
-			<section className="kpi-grid grid gap-3 md:grid-cols-4">
-				{metricCards.map((card) => {
-					const ItemIcon = card.icon;
-					return (
-						<div className="project-kpi" key={card.label}>
-							<span
-								className="project-kpi-icon"
-								style={{ backgroundColor: card.tone }}
-							>
-								<ItemIcon aria-hidden="true" size={18} />
-							</span>
-							<span className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--muted)]">
-								{card.label}
-							</span>
-							<strong className="mt-3 block text-2xl tabular-nums">
-								{card.value}
-							</strong>
-						</div>
-					);
-				})}
-			</section>
+			<StatStrip
+				items={metricCards.map((card) => ({
+					key: card.label,
+					label: card.label,
+					value: card.value,
+				}))}
+				label="Resumen financiero del proyecto"
+			/>
 			<section className="project-panel">
 				<div className="project-panel-header">
 					<div>

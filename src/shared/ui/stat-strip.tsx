@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 /**
  * Franja de indicadores: un solo panel dividido en celdas. Cada celda lleva a
@@ -19,12 +19,20 @@ export type StatItem = {
 export function StatStrip({
 	items,
 	label,
+	compact = false,
 }: {
 	items: StatItem[];
 	label: string;
+	/** Una sola línea por indicador, para pantallas donde el trabajo está abajo. */
+	compact?: boolean;
 }) {
 	return (
-		<section aria-label={label} className="hm-stats">
+		<section
+			aria-label={label}
+			className={`hm-stats ${compact ? "hm-stats--compact" : ""}`}
+			data-many={items.length > 4 || undefined}
+			style={{ "--hm-stat-count": items.length } as CSSProperties}
+		>
 			{items.map((item) => {
 				const content = (
 					<>

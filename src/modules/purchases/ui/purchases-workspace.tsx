@@ -69,7 +69,7 @@ import {
 	CanceledOrdersTable,
 	CancelOrderDialog,
 	CompanyInvoicesTable,
-	formatCompactMoney,
+	formatMoney,
 	KpiStrip,
 	SuppliersTable,
 } from "./purchases-tables";
@@ -2602,7 +2602,7 @@ export function PurchasesWorkspace({
 					{
 						key: "committed",
 						label: "Comprometido",
-						value: formatCompactMoney(data.metrics.openValue),
+						value: formatMoney(data.metrics.openValue),
 						detail: "Valor de las órdenes abiertas",
 						onActivate: () => {
 							setView("orders");
